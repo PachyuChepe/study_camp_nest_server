@@ -1,9 +1,8 @@
 @domain = http://localhost:4000
 @AccessToken = {{loginToken.response.body.$.access_token}}
-# @AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIxQGdtYWlsLmNvbSIsInN1YiI6MSwiaWF0IjoxNzA1NDA1MDM5LCJleHAiOjE3MDU0MDY4Mzl9.LXf5K9u2dg46xCc0MI731hzGTsA4lydXELy2iIgrWds
+# @AccessToken = "구글 소셜 로그인 테스트 시 이쪽에 토큰 값 입력한 뒤 2번째 줄 주석처리"
 
-
-### 
+###
 # 사용자 회원가입
 POST {{domain}}/users
 Content-Type: application/json

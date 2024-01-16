@@ -1,15 +1,21 @@
 import * as fs from 'fs';
 import * as https from 'https';
 import * as path from 'path';
-
+import * as Sentry from '@sentry/node';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
-
+import { RavenInterceptor } from 'nest-raven';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
   const configService = app.get(ConfigService);
+
+  Sentry.init({
+    dsn: configService.get<string>('SENTRY_DSN'), // Sentry DSN으로 교체
+  });
+
+  app.useGlobalInterceptors(new RavenInterceptor());
+
   const port = configService.get<number>('PORT');
   // 인증 키 파일 경로 설정
   const keyPath = path.join(__dirname, '..', 'key.pem');
