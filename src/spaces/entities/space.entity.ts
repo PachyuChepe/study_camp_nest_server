@@ -5,6 +5,7 @@ import {
   OneToMany,
   OneToOne,
   JoinColumn,
+  ManyToOne,
 } from 'typeorm';
 import { SpaceMember } from 'src/space-members/entities/space-member.entity';
 import { SpaceClass } from './space-class.entity';
@@ -20,14 +21,14 @@ export class Space {
   id: number;
 
   //TODO: 둘다 1:1 이라고?? 다시 물어봐야지
-  @OneToOne(() => User, (user) => user.space)
+  @ManyToOne(() => User, (user) => user.space)
   @JoinColumn({ name: 'user_id' })
   user: User;
   @Column({ type: 'int', nullable: false })
   user_id: number;
 
   //여기도 문제 있었음 코드 실행시
-  @OneToOne(() => SpaceClass, (spaceClass) => spaceClass.space)
+  @ManyToOne(() => SpaceClass, (spaceClass) => spaceClass.space)
   @JoinColumn({ name: 'class_id' })
   space_class: SpaceClass;
   @Column({ type: 'int', name: 'class_id' })

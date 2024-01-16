@@ -1,6 +1,6 @@
 @domain = http://localhost:4000
 # @AccessToken = {{loginToken.response.body.$.access_token}}
-@AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5dWNoZXBlQGdtYWlsLmNvbSIsInN1YiI6OSwiaWF0IjoxNzA1MzU4NzM1LCJleHAiOjE3MDUzNjA1MzV9.NnvBzh01nJsPedoSi2vHAxBRgWbKBdAyLDMwhGm-r-s
+@AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIxQGdtYWlsLmNvbSIsInN1YiI6MSwiaWF0IjoxNzA1NDAyNDE2LCJleHAiOjE3MDU0MDQyMTZ9.UayCYIx1yCV7PxFnqVe9jKQm4VdSu6F1-GVqqkYXy1o
 
 
 ### 
@@ -93,3 +93,30 @@ Content-Type: application/json
   "code": "400053"
 }
 
+###
+# 학습공간 생성하기
+# 미리 space_class를 만들고 시도하시기 바랍니다.
+POST {{domain}}/spaces
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "name": "testfor",
+  "userId": 1,
+  "classId": 1
+}
+###
+# 학습공간 삭제하기
+DELETE  {{domain}}/spaces
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "name": "testforme"
+}
+
+###
+# 내 학습공간 전부 조회하기
+GET {{domain}}/spaces
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json

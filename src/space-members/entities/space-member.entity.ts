@@ -26,7 +26,7 @@ export class SpaceMember {
   @Column({ type: 'int', nullable: false })
   user_id: number;
 
-  @ManyToOne(() => Space, (space) => space.spaceMembers)
+  @ManyToOne(() => Space, (space) => space.spaceMembers, {onDelete: 'CASCADE'})
   @JoinColumn({ name: 'space_id' })
   space: Space;
   @Column({ type: 'int', nullable: false })

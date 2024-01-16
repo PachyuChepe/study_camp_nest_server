@@ -8,11 +8,18 @@ import {
   Delete,
   UsePipes,
   ValidationPipe,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { SpacesService } from './spaces.service';
 import { CreateSpaceDto } from './dto/create-space.dto';
 import { UpdateSpaceDto } from './dto/update-space.dto';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+import { AuthGuard } from '@nestjs/passport';
+import { AddMemberInSpaceDto } from './dto/add-member-in-space.dto';
 
+
+@UseGuards(AuthGuard('jwt'), JwtAuthGuard)
 @Controller('spaces')
 export class SpacesController {
   constructor(private readonly spacesService: SpacesService) {}
@@ -36,7 +43,13 @@ export class SpacesController {
   //유저 정보를 통해 학습공간을 찾습니다. -> 유저가 속한 학습공간을 모두 찾기 위한 것입니다.
   //GetUserDecorator?
   @Get()
-  async findSpacesByUser(user: any){
-    return await this.spacesService.findSpacesByUser(user)
+  async findSpacesByUser(user: any, @Request() req){
+    return await this.spacesService.findSpacesByUser(req.user)
+  }
+
+  Post()
+  async addMemberInSpace(@Body() addMemberInSpaceDto: AddMemberInSpaceDto){
+
+
   }
 }
