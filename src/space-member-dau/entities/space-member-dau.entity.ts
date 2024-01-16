@@ -1,11 +1,13 @@
+/*
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
   JoinColumn,
+  CreateDateColumn,
 } from 'typeorm';
-import { SpaceMember } from './space-member.entity';
+import { SpaceMember } from 'src/space-members/entities/space-member.entity';
 
 // 만약 유저가 24시까지 퇴장안하고 있으면 어떻게 계산하지?
 // node-schedule 23:59:59초에만 실행하는 함수 가질 수 있다.
@@ -30,6 +32,7 @@ export class SpaceMemberDau {
   @Column({ nullable: true })
   last_leave_time: Date;
 
-  @Column()
+  @CreateDateColumn()
   created_at: Date;
 }
+*/

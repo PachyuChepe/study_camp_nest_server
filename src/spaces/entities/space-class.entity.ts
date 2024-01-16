@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, OneToOne, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, OneToOne, Column, OneToMany } from 'typeorm';
 import { Space } from './space.entity';
 
 @Entity('space_class')
@@ -15,6 +15,6 @@ export class SpaceClass {
   @Column({ type: 'int', nullable: false })
   price: number;
 
-  @OneToOne(() => Space, (space) => space.space_class)
-  space: Space;
+  @OneToMany(() => Space, (space) => space.space_class)
+  space: Space[];
 }

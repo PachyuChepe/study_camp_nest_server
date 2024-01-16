@@ -4,7 +4,7 @@ import { UpdateLectureDto } from './dto/update-lecture.dto';
 
 @Injectable()
 export class LecturesService {
-  create(createLectureDto: CreateLectureDto) {
+  createLecture(createLectureDto: CreateLectureDto) {
     return 'This action adds a new lecture';
   }
 
