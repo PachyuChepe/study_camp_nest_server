@@ -1,6 +1,6 @@
 @domain = http://localhost:4000
-# @AccessToken = {{loginToken.response.body.$.access_token}}
-@AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIxQGdtYWlsLmNvbSIsInN1YiI6MSwiaWF0IjoxNzA1NDA1MDM5LCJleHAiOjE3MDU0MDY4Mzl9.LXf5K9u2dg46xCc0MI731hzGTsA4lydXELy2iIgrWds
+@AccessToken = {{loginToken.response.body.$.access_token}}
+# @AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIxQGdtYWlsLmNvbSIsInN1YiI6MSwiaWF0IjoxNzA1NDA1MDM5LCJleHAiOjE3MDU0MDY4Mzl9.LXf5K9u2dg46xCc0MI731hzGTsA4lydXELy2iIgrWds
 
 
 ### 
@@ -96,6 +96,8 @@ Content-Type: application/json
 ###
 # 학습공간 생성하기
 # 미리 space_class를 만들고 시도하시기 바랍니다.
+# 생성 쿼리문 예시 아래에 작성했음
+# insert into studycamp.space_class values (1,'vip',100,500000)
 # 테스트 함.
 # 이상있으면 이정훈 바로 불러주세요.
 POST {{domain}}/spaces
