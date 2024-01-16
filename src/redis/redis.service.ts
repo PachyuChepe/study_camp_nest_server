@@ -42,4 +42,16 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
   async removeRefreshToken(userId: string): Promise<void> {
     await this.client.del(`refresh_token:${userId}`);
   }
+
+  // 인증번호 전송
+  async setVerificationCode(email: string, code: string): Promise<void> {
+    await this.client.set(`verification_code:${email}`, code, {
+      EX: 60 * 3,
+    });
+  }
+
+  // 인증번호 검증
+  async getVerificationCode(email: string): Promise<string | null> {
+    return await this.client.get(`verification_code:${email}`);
+  }
 }
