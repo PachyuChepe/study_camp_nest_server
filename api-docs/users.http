@@ -1,0 +1,159 @@
+@domain = http://localhost:4000
+# @AccessToken = {{loginToken.response.body.$.access_token}}
+@AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIxQGdtYWlsLmNvbSIsInN1YiI6MSwiaWF0IjoxNzA1NDA1MDM5LCJleHAiOjE3MDU0MDY4Mzl9.LXf5K9u2dg46xCc0MI731hzGTsA4lydXELy2iIgrWds
+
+
+### 
+# 사용자 회원가입
+POST {{domain}}/users
+Content-Type: application/json
+
+{
+  "email": "user1@gmail.com",
+  "password": "123qweQWE!",
+  "nick_name": "일반좁밥"
+}
+
+###
+# 사용자 로그인
+# @name loginToken
+POST {{domain}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "user1@gmail.com",
+  "password": "123qweQWE!"
+}
+
+###
+# 모든 사용자 정보 조회
+GET {{domain}}/users
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+###
+# 로그인한 사용자 정보 조회
+GET {{domain}}/users/profile
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+###
+# 엑세스 토큰 재발급 (로그인 시간 연장)
+# @name loginToken
+POST {{domain}}/auth/refresh
+Authorization: Bearer {{AccessToken}}
+
+###
+# 사용자 정보 업데이트
+PATCH {{domain}}/users
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "password": "123qweQWE!",
+  "nick_name": "일반좁밥",
+  "skin": 1,
+  "hair": 2,
+  "face": 3,
+  "clothes": 4,
+  "hair_color": 5,
+  "clothes_color": 6
+}
+
+### 
+# 사용자 삭제
+DELETE {{domain}}/users
+Content-Type: application/json
+Authorization: Bearer {{AccessToken}}
+
+### 
+# 로그아웃
+POST {{domain}}/auth/logout
+Content-Type: application/json
+Authorization: Bearer {{AccessToken}}
+
+###
+# 메일 인증번호 전송
+# @name loginToken
+POST {{domain}}/auth/send-verification
+Content-Type: application/json
+
+{
+  "email": "user@gmail.com"
+}
+
+###
+# 메일 인증번호 검증
+# @name loginToken
+POST {{domain}}/auth/verify-email
+Content-Type: application/json
+
+{
+  "email": "user@gmail.com",
+  "code": "400053"
+}
+
+###
+# 학습공간 생성하기
+# 미리 space_class를 만들고 시도하시기 바랍니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+POST {{domain}}/spaces
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "name": "testfor",
+  "userId": 1,
+  "classId": 1
+}
+###
+# 학습공간 삭제하기
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+DELETE  {{domain}}/spaces
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "name": "testforme"
+}
+
+###
+# 내 학습공간 전부 조회하기
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+GET {{domain}}/spaces
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+###
+# 학습공간에 유저 초대하기
+# 미리 유저를 만들어 주셔야 합니다.
+# 응급조치로 아이디를 통해 학습공간에 유저를 초대합니다
+# 추후 고칠것입니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+POST {{domain}}/space-members
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "userId": 2,
+  "spaceId": 4
+}
+###
+# 학습공간에서 유저 추방하기
+# 유저를 학습공간에 미리 넣어 주셔야 합니다.
+# 응급조치로 아이디를 통해 학습공간에서 유저를 추방합니다.
+# 추후 고칠것입니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+DELETE  {{domain}}/space-members
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "userId": 2,
+  "spaceId": 4
+}

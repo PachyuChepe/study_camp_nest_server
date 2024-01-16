@@ -3,6 +3,7 @@ import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { CreateSpaceDto } from './dto/create-space.dto';
 import { UpdateSpaceDto } from './dto/update-space.dto';
@@ -66,7 +67,9 @@ export class SpacesService {
       //TODO: 방을 만든 장본인인지 확인하는 로직이 필요하다.
       // 누구한테 물어봐야 하나? 권한은 가드고 정보는 데코레이터 jwt쓰면 정보 줄거고
       let exSpace = await this.findSpaceByName(name);
-      this.IsSpaceExisting(exSpace);
+      if(!exSpace){
+        throw new NotFoundException('해당하는 방은 존재하지 않습니다.')
+      }
       await this.spacesRepository.delete(exSpace);
       return { code: 200, message: 'You successfully delete the space' };
     } catch (error) {
@@ -76,7 +79,7 @@ export class SpacesService {
 
   //이건 단일로 써도 되는건가?
   async findSpacesByUser(user: any) {
-    let results = await this.spacesRepository.findBy({ user: user });
+    let results = await this.spacesRepository.findBy({ user_id: user.id });
     return results;
   }
 

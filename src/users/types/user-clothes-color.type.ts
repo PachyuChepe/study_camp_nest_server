@@ -1,4 +1,4 @@
-export enum HairType {
+export enum ClothesColorType {
   Base, // 0
   Type1, // 1
   Type2, // 2
