@@ -16,7 +16,6 @@ import { CreateSpaceDto } from './dto/create-space.dto';
 import { UpdateSpaceDto } from './dto/update-space.dto';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { AuthGuard } from '@nestjs/passport';
-import { AddMemberInSpaceDto } from './dto/add-member-in-space.dto';
 
 
 @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
@@ -45,11 +44,5 @@ export class SpacesController {
   @Get()
   async findSpacesByUser(user: any, @Request() req){
     return await this.spacesService.findSpacesByUser(req.user)
-  }
-
-  Post()
-  async addMemberInSpace(@Body() addMemberInSpaceDto: AddMemberInSpaceDto){
-
-
   }
 }

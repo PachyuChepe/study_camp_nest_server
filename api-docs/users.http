@@ -1,6 +1,6 @@
 @domain = http://localhost:4000
 # @AccessToken = {{loginToken.response.body.$.access_token}}
-@AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIxQGdtYWlsLmNvbSIsInN1YiI6MSwiaWF0IjoxNzA1NDAyNDE2LCJleHAiOjE3MDU0MDQyMTZ9.UayCYIx1yCV7PxFnqVe9jKQm4VdSu6F1-GVqqkYXy1o
+@AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIxQGdtYWlsLmNvbSIsInN1YiI6MSwiaWF0IjoxNzA1NDA1MDM5LCJleHAiOjE3MDU0MDY4Mzl9.LXf5K9u2dg46xCc0MI731hzGTsA4lydXELy2iIgrWds
 
 
 ### 
@@ -96,6 +96,8 @@ Content-Type: application/json
 ###
 # 학습공간 생성하기
 # 미리 space_class를 만들고 시도하시기 바랍니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
 POST {{domain}}/spaces
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
@@ -107,6 +109,8 @@ Content-Type: application/json
 }
 ###
 # 학습공간 삭제하기
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
 DELETE  {{domain}}/spaces
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
@@ -117,6 +121,39 @@ Content-Type: application/json
 
 ###
 # 내 학습공간 전부 조회하기
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
 GET {{domain}}/spaces
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
+
+###
+# 학습공간에 유저 초대하기
+# 미리 유저를 만들어 주셔야 합니다.
+# 응급조치로 아이디를 통해 학습공간에 유저를 초대합니다
+# 추후 고칠것입니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+POST {{domain}}/space-members
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "userId": 2,
+  "spaceId": 4
+}
+###
+# 학습공간에서 유저 추방하기
+# 유저를 학습공간에 미리 넣어 주셔야 합니다.
+# 응급조치로 아이디를 통해 학습공간에서 유저를 추방합니다.
+# 추후 고칠것입니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+DELETE  {{domain}}/space-members
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "userId": 2,
+  "spaceId": 4
+}
