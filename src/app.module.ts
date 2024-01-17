@@ -1,10 +1,13 @@
 import { Module } from '@nestjs/common';
+import { RavenModule } from 'nest-raven';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RedisModule } from './redis/redis.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { ErrorLoggingModule } from './auth/error-logging/error-logging.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_FILTER } from '@nestjs/core';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { SpacesModule } from './spaces/spaces.module';
@@ -26,6 +29,7 @@ import { LectureItem } from './lecture-items/entities/lecture-items.entity';
 import { LectureProgress } from './lecture-progress/entities/lecture-progress.entity';
 import { Alarm } from './alarms/entities/alarm.entity';
 import { Mail } from './mails/entities/mail.entity';
+import { AllExceptionsFilter } from './auth/error-logging/error-logging.service';
 import { SpaceMemberDauModule } from './space-member-dau/space-member-dau.module';
 import { GroupMembersModule } from './group-members/group-members.module';
 import { LectureItemsModule } from './lecture-items/lecture-items.module';
@@ -86,12 +90,20 @@ const typeOrmModuleOptions = {
     LecturesModule,
     MailsModule,
     AlarmsModule,
+    RavenModule,
+    ErrorLoggingModule,
     SpaceMemberDauModule,
     GroupMembersModule,
     LectureItemsModule,
     LectureProgressModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    },
+    AppService,
+  ],
 })
 export class AppModule {}
