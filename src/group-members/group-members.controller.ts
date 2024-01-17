@@ -1,8 +1,11 @@
-import { Body, Controller, Delete, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AddGroupMember } from './dto/add-group-member.dto';
 import { GroupMembersService } from './group-members.service';
 import { DeleteGroupMember } from './dto/delete-group-member.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 
+@UseGuards(AuthGuard('jwt'), JwtAuthGuard)
 @Controller('group-members')
 export class GroupMembersController {
   constructor(private groupMembersService: GroupMembersService) {}

@@ -1,19 +1,6 @@
 @domain = http://localhost:4000
-
 @AccessToken = {{loginToken.response.body.$.access_token}}
 # @AccessToken = "구글 소셜 로그인 테스트 시 이쪽에 토큰 값 입력한 뒤 2번째 줄 주석처리"
-
-
-###
-# 사용자 회원가입
-POST {{domain}}/users
-Content-Type: application/json
-
-{
-  "email": "user1@gmail.com",
-  "password": "123qweQWE!",
-  "nick_name": "일반좁밥"
-}
 
 ###
 # 사용자 로그인
@@ -26,73 +13,6 @@ Content-Type: application/json
   "password": "123qweQWE!"
 }
 
-###
-# 모든 사용자 정보 조회
-GET {{domain}}/users
-Authorization: Bearer {{AccessToken}}
-Content-Type: application/json
-
-###
-# 로그인한 사용자 정보 조회
-GET {{domain}}/users/profile
-Authorization: Bearer {{AccessToken}}
-Content-Type: application/json
-
-###
-# 엑세스 토큰 재발급 (로그인 시간 연장)
-# @name loginToken
-POST {{domain}}/auth/refresh
-Authorization: Bearer {{AccessToken}}
-
-###
-# 사용자 정보 업데이트
-PATCH {{domain}}/users
-Authorization: Bearer {{AccessToken}}
-Content-Type: application/json
-
-{
-  "password": "123qweQWE!",
-  "nick_name": "일반좁밥",
-  "skin": 1,
-  "hair": 2,
-  "face": 3,
-  "clothes": 4,
-  "hair_color": 5,
-  "clothes_color": 6
-}
-
-### 
-# 사용자 삭제
-DELETE {{domain}}/users
-Content-Type: application/json
-Authorization: Bearer {{AccessToken}}
-
-### 
-# 로그아웃
-POST {{domain}}/auth/logout
-Content-Type: application/json
-Authorization: Bearer {{AccessToken}}
-
-###
-# 메일 인증번호 전송
-# @name loginToken
-POST {{domain}}/auth/send-verification
-Content-Type: application/json
-
-{
-  "email": "user@gmail.com"
-}
-
-###
-# 메일 인증번호 검증
-# @name loginToken
-POST {{domain}}/auth/verify-email
-Content-Type: application/json
-
-{
-  "email": "user@gmail.com",
-  "code": "400053"
-}
 
 ###
 # 학습공간 생성하기
@@ -160,6 +80,68 @@ Content-Type: application/json
   "userId": 2,
   "spaceId": 4
 }
+###
+# 그룹을 생성합니다.
+# 학습공간이 미리 만들어져 있어야 합니다.
+# 학습공간을 URL parameter로받습니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+Post {{domain}}/group/4
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "name": "testName"
+}
+
+###
+# 그룹을 삭제합니다.
+# 그룹이 미리 만들어져 있어야 합니다.
+# 그룹ID를 URL parameter로받습니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+DELETE {{domain}}/group/2
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+###
+# 특정 그룹의 모든 방을 조회합니다.
+# 그룹이 미리 만들어져 있어야 합니다.
+# 학습공간ID를 URL parameter로받습니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+GET {{domain}}/group/4
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+###
+# 특정 그룹에 멤버를 추가합니다.
+# 그룹이 미리 만들어져 있어야 합니다.
+# 이상있으면 이정훈 바로 불러주세요.
+# 테스트함.
+Post {{domain}}/group-members
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "groupId": 3,
+  "memberId": 3
+}
+
+###
+# 특정 그룹에 멤버를 삭제합니다.
+# 그룹과 멤버가 미리 만들어져 있어야 합니다.
+# 테스트함.
+# 이상있으면 이정훈 바로 불러주세요.
+DELETE {{domain}}/group-members
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "groupId": 3,
+  "memberId": 3
+}
+
 
 ###
 # 강의 만들기
