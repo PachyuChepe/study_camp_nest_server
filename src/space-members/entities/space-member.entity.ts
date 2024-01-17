@@ -11,7 +11,7 @@ import { User } from 'src/users/entities/user.entity';
 import { Space } from 'src/spaces/entities/space.entity';
 import { SpaceMemberDau } from './space-member-dau.entity';
 import { GroupMember } from 'src/group-members/entities/group-members.entity';
-import { LectureProgress } from 'src/lectures/entities/lecture-progress.entity';
+import { LectureProgress } from 'src/lecture-progress/entities/lecture-progress.entity';
 import { Mail } from 'src/mails/entities/mail.entity';
 import { SpaceMemberRole } from '../types/space-member-role.type';
 

@@ -1,13 +1,16 @@
 import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
-export class CreateLectureDto {
+export class CreateLectureItemsDto {
 
   @IsNotEmpty()
   @IsNumber()
-  spaceId: number;
+  lectureId: number;
 
   @IsNotEmpty()
-  @IsNotEmpty()
+  @IsString()
   title: string;
 
+  @IsNotEmpty()
+  @IsString()
+  url: string;
 }
