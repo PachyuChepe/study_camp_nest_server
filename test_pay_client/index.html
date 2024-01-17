@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://js.tosspayments.com/v1/payment-widget"></script>
+  </head>
+  <body>
+    <div id="payment-method"></div>
+    <div id="agreement"></div>
+    <button id="payment-button">결제하기</button>
+    <script>
+      const clientKey = 'test_ck_yZqmkKeP8g2Rl2wPm0yBrbQRxB9l';
+      const customerKey = 'G2MD0ghzwL7EwQH01EOfK2';
+      const button = document.getElementById('payment-button');
+      const paymentWidget = PaymentWidget(clientKey, customerKey);
+      // const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS)
+      paymentWidget.renderPaymentMethods('#payment-method', { value: 500 });
+      paymentWidget.renderAgreement('#agreement');
+      button.addEventListener('click', function () {
+        paymentWidget.requestPayment({
+          orderId: '4TITFDV0Qqs0xzmtqqtjF10',
+          orderName: '워크스페이스 A타입',
+          successUrl: 'http://localhost:4000/pay/successpage',
+          failUrl: 'http://localhost:4000/pay/failpage',
+          customerEmail: 'customer123@gmail.com',
+          customerName: '시연용 회원',
+        });
+      });
+    </script>
+  </body>
+</html>

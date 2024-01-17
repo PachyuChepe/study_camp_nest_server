@@ -1,0 +1,253 @@
+@domain = http://localhost:4000
+@AccessToken = {{loginToken.response.body.$.access_token}}
+# @AccessToken = "구글 소셜 로그인 테스트 시 이쪽에 토큰 값 입력한 뒤 2번째 줄 주석처리"
+
+###
+# 사용자 로그인
+# @name loginToken
+POST {{domain}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "user1@gmail.com",
+  "password": "123qweQWE!"
+}
+
+
+###
+# 학습공간 생성하기
+# 미리 space_class를 만들고 시도하시기 바랍니다.
+# 생성 쿼리문 예시 아래에 작성했음
+# insert into studycamp.space_class values (1,'vip',100,500000)
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+POST {{domain}}/spaces
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "name": "testfor",
+  "userId": 1,
+  "classId": 1
+}
+###
+# 학습공간 삭제하기
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+DELETE  {{domain}}/spaces
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "name": "testforme"
+}
+
+###
+# 내 학습공간 전부 조회하기
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+GET {{domain}}/spaces
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+###
+# 학습공간에 유저 초대하기
+# 미리 유저를 만들어 주셔야 합니다.
+# 응급조치로 아이디를 통해 학습공간에 유저를 초대합니다
+# 추후 고칠것입니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+POST {{domain}}/space-members
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "userId": 2,
+  "spaceId": 4
+}
+###
+# 학습공간에서 유저 추방하기
+# 유저를 학습공간에 미리 넣어 주셔야 합니다.
+# 응급조치로 아이디를 통해 학습공간에서 유저를 추방합니다.
+# 추후 고칠것입니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+DELETE  {{domain}}/space-members
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "userId": 2,
+  "spaceId": 4
+}
+###
+# 그룹을 생성합니다.
+# 학습공간이 미리 만들어져 있어야 합니다.
+# 학습공간을 URL parameter로받습니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+Post {{domain}}/group/4
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "name": "testName"
+}
+
+###
+# 그룹을 삭제합니다.
+# 그룹이 미리 만들어져 있어야 합니다.
+# 그룹ID를 URL parameter로받습니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+DELETE {{domain}}/group/2
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+###
+# 특정 그룹의 모든 방을 조회합니다.
+# 그룹이 미리 만들어져 있어야 합니다.
+# 학습공간ID를 URL parameter로받습니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+GET {{domain}}/group/4
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+###
+# 특정 그룹에 멤버를 추가합니다.
+# 그룹이 미리 만들어져 있어야 합니다.
+# 이상있으면 이정훈 바로 불러주세요.
+# 테스트함.
+Post {{domain}}/group-members
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "groupId": 3,
+  "memberId": 3
+}
+
+###
+# 특정 그룹에 멤버를 삭제합니다.
+# 그룹과 멤버가 미리 만들어져 있어야 합니다.
+# 테스트함.
+# 이상있으면 이정훈 바로 불러주세요.
+DELETE {{domain}}/group-members
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "groupId": 3,
+  "memberId": 3
+}
+
+
+###
+# 강의 만들기
+# 학습공간이 미리 생성되어 있어야합니다.
+# 만드는 순간에는 count가 0이기에 따로 넣지 않습니다.
+# 추후 고칠것입니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+POST {{domain}}/lectures
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "spaceId": 4,
+  "title": "testTitle"
+}
+
+###
+# 강의 삭제하기
+# 강의가 미리 생성되어 있어야합니다.
+# 응급조치로 강의 아이디를 통해 강의를 삭제합니다.
+# 추후 고칠것입니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+DELETE {{domain}}/lectures/2
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+###
+# 특정 학습공간의 모든 강의 조회하기
+# 학습공간과 강의가 미리 생성되어 있어야합니다.
+# 추후 고칠것입니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+GET {{domain}}/lectures/4
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+###
+# 강의에 강의 영상을 추가합니다.
+# 강의가 미리 생성되어 있어야합니다.
+# 추후 고칠것입니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+POST {{domain}}/lecture-items
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "lectureId": 3,
+  "title": "testTitle",
+  "url": "testURL" 
+
+}
+###
+# 강의영상 아이디로 강의영상 삭제하기
+# 강의영상이 미리 생성되어 있어야합니다.
+# 추후 고칠것입니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+DELETE {{domain}}/lecture-items/1
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+###
+# 특정 강의의 모든 강의영상 조회하기
+# 강의와 강의영상들이 생성되어 있어야 합니다.
+# 추후 고칠것입니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+GET {{domain}}/lecture-items
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "lecture": 3
+}
+
+###
+# 특정 멤버에게 특정 강의의 강의진도 생성해주기
+# 멤버와 강의 두개 모두 생성되어야 합니다.
+# 추후 고칠것입니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+POST {{domain}}/lecture-progress
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "lectureId": 3,
+  "memberId": 3,
+  "lectureCount": 10
+}
+
+
+###
+# 특정 강의진도 업데이트하기
+# 강의진도가 생성되어야 합니다.
+# 추후 고칠것입니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+PATCH {{domain}}/lecture-progress
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "lectureProgressId": 1,
+  "lectureItemOrder": 3
+}
