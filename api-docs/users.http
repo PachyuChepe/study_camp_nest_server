@@ -1,9 +1,10 @@
 @domain = http://localhost:4000
-# @AccessToken = {{loginToken.response.body.$.access_token}}
-@AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIxQGdtYWlsLmNvbSIsInN1YiI6MSwiaWF0IjoxNzA1NDY4MjAyLCJleHAiOjE3MDU0NzAwMDJ9.GRczlT_uciwRcDf_BFSdHXMmptWr5e2otxIyCfvlGJs
+
+@AccessToken = {{loginToken.response.body.$.access_token}}
+# @AccessToken = "구글 소셜 로그인 테스트 시 이쪽에 토큰 값 입력한 뒤 2번째 줄 주석처리"
 
 
-### 
+###
 # 사용자 회원가입
 POST {{domain}}/users
 Content-Type: application/json
@@ -96,6 +97,8 @@ Content-Type: application/json
 ###
 # 학습공간 생성하기
 # 미리 space_class를 만들고 시도하시기 바랍니다.
+# 생성 쿼리문 예시 아래에 작성했음
+# insert into studycamp.space_class values (1,'vip',100,500000)
 # 테스트 함.
 # 이상있으면 이정훈 바로 불러주세요.
 POST {{domain}}/spaces
