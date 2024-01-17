@@ -9,11 +9,15 @@ import {
   ParseIntPipe,
   UsePipes,
   ValidationPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { GroupService } from './group.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 
+@UseGuards(AuthGuard('jwt'), JwtAuthGuard)
 @Controller('group')
 export class GroupController {
   constructor(private readonly groupService: GroupService) {}
@@ -28,6 +32,7 @@ export class GroupController {
   //서비스로 위로 올려 보낼 것.
   //학습공간내 그룹을 찾는다.
 
+  //TODO 나중에 space-member-dau좀 봐라
   //URL에 갑자기 spaceId가 나오는 것도 그런데 생각좀 더 해보자 일단 놔두고
   @Post('/:spaceId')
   @UsePipes(ValidationPipe)
