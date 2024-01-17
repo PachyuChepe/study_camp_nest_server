@@ -14,6 +14,7 @@ import { JwtStrategy } from './strategy/jwt.strategy';
 import { LocalStrategy } from './strategy/local.strategy';
 import { GoogleStrategy } from './strategy/google.strategy';
 import { EmailService } from './nodemailer/auth.nodemailer';
+import { PayModule } from './pay/pay.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { EmailService } from './nodemailer/auth.nodemailer';
     }),
     UsersModule,
     RedisModule,
+    PayModule,
   ],
   providers: [
     AuthService,

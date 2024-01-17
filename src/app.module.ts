@@ -35,6 +35,10 @@ import { GroupMembersModule } from './group-members/group-members.module';
 import { LectureItemsModule } from './lecture-items/lecture-items.module';
 import { LectureProgressModule } from './lecture-progress/lecture-progress.module';
 
+// 결제 API 테스트 클라이언트 정적 연결
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+
 const typeOrmModuleOptions = {
   useFactory: async (
     configService: ConfigService,
@@ -68,6 +72,9 @@ const typeOrmModuleOptions = {
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'test_pay_client'), // 'public' 디렉토리 지정
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
@@ -97,13 +104,15 @@ const typeOrmModuleOptions = {
     LectureItemsModule,
     LectureProgressModule,
   ],
-  controllers: [AppController],
+  controllers: [
+    // AppController
+  ],
   providers: [
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
     },
-    AppService,
+    // AppService,
   ],
 })
 export class AppModule {}
