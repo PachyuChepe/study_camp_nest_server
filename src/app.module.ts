@@ -23,14 +23,17 @@ import { SpaceClass } from './spaces/entities/space-class.entity';
 import { SpaceMember } from './space-members/entities/space-member.entity';
 import { SpaceMemberDau } from './space-members/entities/space-member-dau.entity';
 import { Group } from './group/entities/group.entity';
-import { GroupMember } from './group/entities/group-members.entity';
+import { GroupMember } from './group-members/entities/group-members.entity';
 import { Lecture } from './lectures/entities/lecture.entity';
-import { LectureItem } from './lectures/entities/lecture-items.entity';
-import { LectureProgress } from './lectures/entities/lecture-progress.entity';
+import { LectureItem } from './lecture-items/entities/lecture-items.entity';
+import { LectureProgress } from './lecture-progress/entities/lecture-progress.entity';
 import { Alarm } from './alarms/entities/alarm.entity';
 import { Mail } from './mails/entities/mail.entity';
 import { AllExceptionsFilter } from './auth/error-logging/error-logging.service';
 import { SpaceMemberDauModule } from './space-member-dau/space-member-dau.module';
+import { GroupMembersModule } from './group-members/group-members.module';
+import { LectureItemsModule } from './lecture-items/lecture-items.module';
+import { LectureProgressModule } from './lecture-progress/lecture-progress.module';
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -90,6 +93,9 @@ const typeOrmModuleOptions = {
     RavenModule,
     ErrorLoggingModule,
     SpaceMemberDauModule,
+    GroupMembersModule,
+    LectureItemsModule,
+    LectureProgressModule,
   ],
   controllers: [AppController],
   providers: [

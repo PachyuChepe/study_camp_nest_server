@@ -6,50 +6,47 @@ import {
   Patch,
   Param,
   Delete,
+  ValidationPipe,
+  UsePipes,
+  UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { LecturesService } from './lectures.service';
 import { CreateLectureDto } from './dto/create-lecture.dto';
 import { UpdateLectureDto } from './dto/update-lecture.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 
+@UseGuards(AuthGuard('jwt'), JwtAuthGuard)
 @Controller('lectures')
 export class LecturesController {
   constructor(private readonly lecturesService: LecturesService) {}
 
-  //현재 ERD상에서 어떻게 한명의 유저의 진도를 체크하냐가 문제이다
-  //현재 ERD상에서는 강의 안에 여러 강의영상이 들어 있다.
-  //그리고 강의가 강의진도를 가지는 형태가 된다.
-  //그리고 멤버들도 강의진도를 가진다.
-  //강의진도를 확인하기 위해서는 강의영상이 완료했는지 안했는지의 유무를 알아야 한다.
-  ///그러나 ERD상에서는 멤버가 어떤 강의를 완료했는지 알 수 있는 방법이 없다.
-  //나라면 어떻게 할 것인가?
-  //일단 멤버가 여러강의를 가질 수 있어야 한다.
-  // 그리고 그 강의 안에 강의 영상들이 있어야 한다.
-  // 강의 영상은 완료했는지 안했는지를 나타내는 무언인가가 있어야 한다.
-  //유저가 가지는 강의의 전체 강의 영상에서 완료한 강의영상을 통해서 강의 진도를 만든다.
-  //강의에 유저 아이디가 있고 강의영상은 강의가 가지고 있기 때문에
-  //강의진도에는 강의만 연결해도 될거라 생각한다.
+  //강의만들기
+  //강의삭제하기
+  //강의영상 추가하기(일단 구조는 생각안할거라 강의 영상에서 하자)
+  //강의 제목 수정하기(필수 아님)
+  //특정 스페이스의 강의 모두 조회하기
+
+  //테스트는 다 함.
+  //아무리 생각해봐도 일단 각 ERD별 모듈을 만드는게 맞는거 같다는 생각이 들기 시작한다.
+  //문제는 서비스별 분리를 나중에 해야한다는 건데 이게 결국 프로젝트가 만들어지면서 해야하는 과정이라 
+  //일단 지금은 가능한 필수만 구현하고 전체를 보고 다시 연결해야 겠다.
+  //TODO 내가 한 모든 모듈들 가드 적용되는지 확인하기
+
+  @Get('/:spaceId')
+  async findAllLectureBySpaceId(@Param('spaceId', ParseIntPipe) spaceId: number){
+    return await this.lecturesService.findAllLectureBySpaceId(spaceId);
+  }
+
   @Post()
-  createLecture(@Body() createLectureDto: CreateLectureDto) {
-    return this.lecturesService.createLecture(createLectureDto);
+  @UsePipes(ValidationPipe)
+  async createLecture(@Body() createLectureDto: CreateLectureDto){
+    return await this.lecturesService.createLecture(createLectureDto);
   }
 
-  @Get()
-  findAll() {
-    return this.lecturesService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.lecturesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLectureDto: UpdateLectureDto) {
-    return this.lecturesService.update(+id, updateLectureDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.lecturesService.remove(+id);
+  @Delete('/:lectureId')
+  async deleteLectureById(@Param('lecutreId', ParseIntPipe) lectureId: number) {
+    return await this.lecturesService.deleteLectureById(lectureId);
   }
 }

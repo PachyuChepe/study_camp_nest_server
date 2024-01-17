@@ -3,6 +3,7 @@ import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SpaceMemberDau } from '../space-members/entities/space-member-dau.entity';
@@ -34,9 +35,13 @@ export class SpaceMemberDauService {
   }
   //이건 시간 형식 모르면 어떻게 할 수가 없다 나중에 물어보자.
   //입장 시간 받는다고 생각하자. disconnet하면 입장 시간 보내주고 내가 new Date하는걸로
+  //string가 더 편할지도
   async setLeaveTime(memberId: number, time: Date) {
     let result = await this.findTodaySpaceMemberDau(memberId);
-    this.isExistingTodayEnterTime(result);
+    if(result){
+      throw new NotFoundException("오늘 입장하신 적이 없는 멤버입니다.")
+    }
+    
   }
 
   //Private 영역
