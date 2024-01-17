@@ -159,6 +159,68 @@ Content-Type: application/json
   "userId": 2,
   "spaceId": 4
 }
+###
+# 그룹을 생성합니다.
+# 학습공간이 미리 만들어져 있어야 합니다.
+# 학습공간을 URL parameter로받습니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+Post {{domain}}/group/4
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "name": "testName"
+}
+
+###
+# 그룹을 삭제합니다.
+# 그룹이 미리 만들어져 있어야 합니다.
+# 그룹ID를 URL parameter로받습니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+DELETE {{domain}}/group/2
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+###
+# 특정 그룹의 모든 방을 조회합니다.
+# 그룹이 미리 만들어져 있어야 합니다.
+# 학습공간ID를 URL parameter로받습니다.
+# 테스트 함.
+# 이상있으면 이정훈 바로 불러주세요.
+GET {{domain}}/group/4
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+###
+# 특정 그룹에 멤버를 추가합니다.
+# 그룹이 미리 만들어져 있어야 합니다.
+# 이상있으면 이정훈 바로 불러주세요.
+# 테스트함.
+Post {{domain}}/group-members
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "groupId": 3,
+  "memberId": 3
+}
+
+###
+# 특정 그룹에 멤버를 삭제합니다.
+# 그룹과 멤버가 미리 만들어져 있어야 합니다.
+# 테스트함.
+# 이상있으면 이정훈 바로 불러주세요.
+DELETE {{domain}}/group-members
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "groupId": 3,
+  "memberId": 3
+}
+
 
 ###
 # 강의 만들기
