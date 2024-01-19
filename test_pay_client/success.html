@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>결제 성공</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+        font-family: Arial, sans-serif;
+      }
+
+      .message {
+        margin-bottom: 20px;
+        font-size: 24px;
+      }
+
+      .button {
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .button:hover {
+        background-color: #45a049;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div class="message">결제가 성공적으로 완료되었습니다!</div>
+    <button class="button" onclick="location.href='/'">홈으로 돌아가기</button>
+  </body>
+  <script>
+    function getQueryParams() {
+      const queryParams = new URLSearchParams(window.location.search);
+      return {
+        paymentKey: queryParams.get('paymentKey'),
+        orderId: queryParams.get('orderId'),
+        amount: queryParams.get('amount'),
+      };
+    }
+
+    function sendPaymentInfoToServer() {
+      const paymentInfo = getQueryParams();
+
+      axios
+        .post('http://localhost:4000/pay/success', paymentInfo)
+        .then(function (response) {
+          console.log('결제 정보가 서버로 전송되었습니다:', response);
+        })
+        .catch(function (error) {
+          console.error('결제 정보 전송 중 에러 발생:', error);
+        });
+    }
+
+    window.onload = sendPaymentInfoToServer;
+  </script>
+</html>

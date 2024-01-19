@@ -5,7 +5,7 @@ import {
   JoinColumn,
   Column,
 } from 'typeorm';
-import { Group } from './group.entity';
+import { Group } from '../../group/entities/group.entity';
 import { SpaceMember } from 'src/space-members/entities/space-member.entity';
 
 @Entity('group_members')

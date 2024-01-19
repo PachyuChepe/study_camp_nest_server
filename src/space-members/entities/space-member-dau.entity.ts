@@ -7,6 +7,8 @@ import {
 } from 'typeorm';
 import { SpaceMember } from './space-member.entity';
 
+// 만약 유저가 24시까지 퇴장안하고 있으면 어떻게 계산하지?
+// node-schedule 23:59:59초에만 실행하는 함수 가질 수 있다.
 @Entity('space_member_dau')
 export class SpaceMemberDau {
   @PrimaryGeneratedColumn()

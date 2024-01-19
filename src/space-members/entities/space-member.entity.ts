@@ -10,8 +10,8 @@ import {
 import { User } from 'src/users/entities/user.entity';
 import { Space } from 'src/spaces/entities/space.entity';
 import { SpaceMemberDau } from './space-member-dau.entity';
-import { GroupMember } from 'src/group/entities/group-members.entity';
-import { LectureProgress } from 'src/lectures/entities/lecture-progress.entity';
+import { GroupMember } from 'src/group-members/entities/group-members.entity';
+import { LectureProgress } from 'src/lecture-progress/entities/lecture-progress.entity';
 import { Mail } from 'src/mails/entities/mail.entity';
 import { SpaceMemberRole } from '../types/space-member-role.type';
 
@@ -26,7 +26,7 @@ export class SpaceMember {
   @Column({ type: 'int', nullable: false })
   user_id: number;
 
-  @ManyToOne(() => Space, (space) => space.spaceMembers)
+  @ManyToOne(() => Space, (space) => space.spaceMembers, {onDelete: 'CASCADE'})
   @JoinColumn({ name: 'space_id' })
   space: Space;
   @Column({ type: 'int', nullable: false })

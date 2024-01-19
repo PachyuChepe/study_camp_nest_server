@@ -1,9 +1,13 @@
 import { Module } from '@nestjs/common';
+import { RavenModule } from 'nest-raven';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RedisModule } from './redis/redis.module';
+import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { ErrorLoggingModule } from './auth/error-logging/error-logging.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_FILTER } from '@nestjs/core';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { SpacesModule } from './spaces/spaces.module';
@@ -19,12 +23,21 @@ import { SpaceClass } from './spaces/entities/space-class.entity';
 import { SpaceMember } from './space-members/entities/space-member.entity';
 import { SpaceMemberDau } from './space-members/entities/space-member-dau.entity';
 import { Group } from './group/entities/group.entity';
-import { GroupMember } from './group/entities/group-members.entity';
+import { GroupMember } from './group-members/entities/group-members.entity';
 import { Lecture } from './lectures/entities/lecture.entity';
-import { LectureItem } from './lectures/entities/lecture-items.entity';
-import { LectureProgress } from './lectures/entities/lecture-progress.entity';
+import { LectureItem } from './lecture-items/entities/lecture-items.entity';
+import { LectureProgress } from './lecture-progress/entities/lecture-progress.entity';
 import { Alarm } from './alarms/entities/alarm.entity';
 import { Mail } from './mails/entities/mail.entity';
+import { AllExceptionsFilter } from './auth/error-logging/error-logging.service';
+import { SpaceMemberDauModule } from './space-member-dau/space-member-dau.module';
+import { GroupMembersModule } from './group-members/group-members.module';
+import { LectureItemsModule } from './lecture-items/lecture-items.module';
+import { LectureProgressModule } from './lecture-progress/lecture-progress.module';
+
+// 결제 API 테스트 클라이언트 정적 연결
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -59,6 +72,9 @@ const typeOrmModuleOptions = {
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'test_pay_client'), // 'public' 디렉토리 지정
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
@@ -73,6 +89,7 @@ const typeOrmModuleOptions = {
     }),
     TypeOrmModule.forRootAsync(typeOrmModuleOptions),
     RedisModule,
+    AuthModule,
     UsersModule,
     SpacesModule,
     SpaceMembersModule,
@@ -80,8 +97,22 @@ const typeOrmModuleOptions = {
     LecturesModule,
     MailsModule,
     AlarmsModule,
+    RavenModule,
+    ErrorLoggingModule,
+    SpaceMemberDauModule,
+    GroupMembersModule,
+    LectureItemsModule,
+    LectureProgressModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [
+    // AppController
+  ],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    },
+    // AppService,
+  ],
 })
 export class AppModule {}

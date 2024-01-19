@@ -5,7 +5,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { Lecture } from './lecture.entity';
+import { Lecture } from '../../lectures/entities/lecture.entity';
 import { SpaceMember } from 'src/space-members/entities/space-member.entity';
 
 @Entity('lecture_items')

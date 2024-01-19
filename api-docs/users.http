@@ -1,0 +1,105 @@
+@domain = http://localhost:4000
+@AccessToken = {{loginToken.response.body.$.access_token}}
+# @AccessToken = "구글 소셜 로그인 테스트 시 이쪽에 토큰 값 입력한 뒤 2번째 줄 주석처리"
+
+
+###
+# 사용자 회원가입
+POST {{domain}}/users
+Content-Type: application/json
+
+{
+  "email": "user1@gmail.com",
+  "password": "123qweQWE!",
+  "nick_name": "일반좁밥"
+}
+
+###
+# 사용자 로그인
+# @name loginToken
+POST {{domain}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "user1@gmail.com",
+  "password": "123qweQWE!"
+}
+
+###
+# 모든 사용자 정보 조회
+GET {{domain}}/users
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+###
+# 로그인한 사용자 정보 조회
+GET {{domain}}/users/profile
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+###
+# 엑세스 토큰 재발급 (로그인 시간 연장)
+# @name loginToken
+POST {{domain}}/auth/refresh
+Authorization: Bearer {{AccessToken}}
+
+###
+# 사용자 정보 업데이트
+PATCH {{domain}}/users
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "password": "123qweQWE!",
+  "nick_name": "일반좁밥",
+  "skin": 1,
+  "hair": 2,
+  "face": 3,
+  "clothes": 4,
+  "hair_color": 5,
+  "clothes_color": 6
+}
+
+### 
+# 사용자 삭제
+DELETE {{domain}}/users
+Content-Type: application/json
+Authorization: Bearer {{AccessToken}}
+
+### 
+# 로그아웃
+POST {{domain}}/auth/logout
+Content-Type: application/json
+Authorization: Bearer {{AccessToken}}
+
+###
+# 메일 인증번호 전송
+# @name loginToken
+POST {{domain}}/auth/send-verification
+Content-Type: application/json
+
+{
+  "email": "user@gmail.com"
+}
+
+###
+# 메일 인증번호 검증
+# @name loginToken
+POST {{domain}}/auth/verify-email
+Content-Type: application/json
+
+{
+  "email": "user@gmail.com",
+  "code": "400053"
+}
+
+###
+# 토스 페이먼츠 결제 테스트
+POST {{domain}}/pay/success
+Content-Type: application/json
+
+{
+	"paymentKey": "y0E4Dv5qpMGjLJoQ1aVZXeMWz9mmnQ8w6KYe2RNgOWznZb7B",
+  "orderId": "4TITFDV0Qqs0xzmtqqtjF",
+  "amount": 100
+}
