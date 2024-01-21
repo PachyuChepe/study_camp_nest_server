@@ -16,6 +16,7 @@ import { GoogleStrategy } from './strategy/google.strategy';
 import { EmailService } from './nodemailer/auth.nodemailer';
 import { PayModule } from './pay/pay.module';
 import { SpacesModule } from 'src/spaces/spaces.module';
+import { SseModule } from 'src/sse/sse.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { SpacesModule } from 'src/spaces/spaces.module';
     RedisModule,
     PayModule,
     SpacesModule,
+    SseModule,
   ],
   providers: [
     AuthService,

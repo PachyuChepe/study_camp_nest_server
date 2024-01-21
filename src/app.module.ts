@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { RavenModule } from 'nest-raven';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+// import { AppController } from './app.controller'; 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
+// import { AppService } from './app.service'; 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
 import { RedisModule } from './redis/redis.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
@@ -26,7 +26,7 @@ import { Group } from './group/entities/group.entity';
 import { GroupMember } from './group-members/entities/group-members.entity';
 import { Lecture } from './lectures/entities/lecture.entity';
 import { LectureItem } from './lecture-items/entities/lecture-items.entity';
-import { LectureProgress } from './lecture-progress/entities/lecture-progress.entity';
+import { LectureProgress } from './lecture-progress/dto/entities/lecture-progress.entity';
 import { Alarm } from './alarms/entities/alarm.entity';
 import { Mail } from './mails/entities/mail.entity';
 import { AllExceptionsFilter } from './auth/error-logging/error-logging.service';
@@ -38,6 +38,7 @@ import { LectureProgressModule } from './lecture-progress/lecture-progress.modul
 // 결제 API 테스트 클라이언트 정적 연결
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { SseModule } from './sse/sse.module';
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -103,6 +104,7 @@ const typeOrmModuleOptions = {
     GroupMembersModule,
     LectureItemsModule,
     LectureProgressModule,
+    SseModule,
   ],
   controllers: [
     // AppController

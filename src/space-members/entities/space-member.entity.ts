@@ -4,7 +4,7 @@ import {
   Column,
   ManyToOne,
   OneToMany,
-  Index,
+  // Index, 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
   JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
@@ -14,7 +14,7 @@ import { User } from 'src/users/entities/user.entity';
 import { Space } from 'src/spaces/entities/space.entity';
 import { SpaceMemberDau } from './space-member-dau.entity';
 import { GroupMember } from 'src/group-members/entities/group-members.entity';
-import { LectureProgress } from 'src/lecture-progress/entities/lecture-progress.entity';
+import { LectureProgress } from 'src/lecture-progress/dto/entities/lecture-progress.entity';
 import { Mail } from 'src/mails/entities/mail.entity';
 import { SpaceMemberRole } from '../types/space-member-role.type';
 

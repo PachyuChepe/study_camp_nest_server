@@ -1,7 +1,6 @@
-import { IsNotEmpty, IsNumber } from "class-validator";
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class AddGroupMember {
-
   @IsNotEmpty()
   @IsNumber()
   groupId: number;

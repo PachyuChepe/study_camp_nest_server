@@ -22,5 +22,5 @@ import { SpaceMember } from 'src/space-members/entities/space-member.entity';
   exports: [SpacesService],
 })
 export class SpacesModule {}
-//Post space/
-//근거가 있는 구조를 만들자.
+// Post space/
+// 근거가 있는 구조를 만들자.

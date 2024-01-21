@@ -1,0 +1,24 @@
+@domain = http://localhost:4000
+@AccessToken = {{loginToken.response.body.$.access_token}}
+# @AccessToken = "구글 소셜 로그인 테스트 시 이쪽에 토큰 값 입력한 뒤 2번째 줄 주석처리"
+
+###
+# 사용자 로그인
+# @name loginToken
+POST {{domain}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "user1@gmail.com",
+  "password": "123qweQWE!"
+}
+
+### 
+# 메일 전체 조회
+GET {{domain}}/mails
+Authorization: Bearer {{AccessToken}}
+
+###
+# 메일 상세 조회
+GET {{domain}}/mails/2
+Authorization: Bearer {{AccessToken}}

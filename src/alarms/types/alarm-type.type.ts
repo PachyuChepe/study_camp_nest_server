@@ -1,3 +1,7 @@
 export enum AlarmType {
-  Base,
+  BASE,
+  CHECKINTIME,
+  CHECKOUTTIME,
+  MEALTIME,
+  CLASSTIME,
 }

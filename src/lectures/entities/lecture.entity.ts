@@ -11,7 +11,7 @@ import {
   DeleteDateColumn,
 } from 'typeorm';
 import { LectureItem } from '../../lecture-items/entities/lecture-items.entity';
-import { LectureProgress } from '../../lecture-progress/entities/lecture-progress.entity';
+import { LectureProgress } from '../../lecture-progress/dto/entities/lecture-progress.entity';
 
 @Entity('lectures')
 export class Lecture {
