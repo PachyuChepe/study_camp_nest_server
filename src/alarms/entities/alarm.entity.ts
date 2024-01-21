@@ -4,6 +4,7 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  Timestamp,
 } from 'typeorm';
 import { Space } from 'src/spaces/entities/space.entity';
 import { AlarmType } from '../types/alarm-type.type';
@@ -19,7 +20,7 @@ export class Alarm {
   @Column({ type: 'int', nullable: false })
   space_id: number;
 
-  @Column({ type: 'enum', enum: AlarmType, default: AlarmType.Base })
+  @Column({ type: 'enum', enum: AlarmType, default: AlarmType.BASE })
   type: number;
 
   @Column()

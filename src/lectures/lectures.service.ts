@@ -7,11 +7,14 @@ import { CreateLectureDto } from './dto/create-lecture.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Lecture } from './entities/lecture.entity';
+import { MailsController } from 'src/mails/mails.controller';
 
 @Injectable()
 export class LecturesService {
   constructor(
-    @InjectRepository(Lecture) private lectureRepository: Repository<Lecture>,
+    @InjectRepository(Lecture)
+    private lectureRepository: Repository<Lecture>,
+    private mailsController: MailsController,
   ) {}
 
   //public 영역
@@ -31,6 +34,7 @@ export class LecturesService {
         count: 0,
       });
       await this.lectureRepository.save(lecture);
+      await this.mailsController.create(lecture.space_id, lecture.title);
       return { code: 200, message: '성공적으로 해당 강의를 등록하였습니다.' };
     } catch (error) {
       throw new InternalServerErrorException('서버 오류 발생');

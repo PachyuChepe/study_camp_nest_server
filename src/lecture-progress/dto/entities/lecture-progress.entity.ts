@@ -5,7 +5,7 @@ import {
   Column,
   JoinColumn,
 } from 'typeorm';
-import { Lecture } from '../../lectures/entities/lecture.entity';
+import { Lecture } from '../../../lectures/entities/lecture.entity';
 import { SpaceMember } from 'src/space-members/entities/space-member.entity';
 
 @Entity('lecture_progress')
@@ -30,6 +30,6 @@ export class LectureProgress {
   progress: number;
 
   //TODO 배열 검증이 필요하다 그러나 어떻게 하는지 아직 모른다. 따로 해야하나
-  @Column({ type: 'varchar'})
+  @Column({ type: 'varchar' })
   checker: string;
 }
