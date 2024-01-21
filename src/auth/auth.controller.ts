@@ -55,7 +55,7 @@ export class AuthController {
     return {
       access_token: newAccessToken,
       member_spaces: memberSpaces, // 추가
-      memberSearch: memberSearch, // 추가
+      member_search: memberSearch, // 추가
     };
   }
 

@@ -45,7 +45,7 @@ export class AuthService {
       message: '로그인 완료',
       access_token: accessToken,
       member_spaces: memberSpaces, // 추가
-      member_Search: memberSearch, // 추가
+      member_search: memberSearch, // 추가
     };
   }
   async sendVerificationCode(email: string): Promise<void> {
