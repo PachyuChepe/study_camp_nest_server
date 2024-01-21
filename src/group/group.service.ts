@@ -3,7 +3,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { UpdateGroupDto } from './dto/update-group.dto';
+// import { UpdateGroupDto } from './dto/update-group.dto'; 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
 import { InjectRepository } from '@nestjs/typeorm';
 import { Group } from './entities/group.entity';
 import { Repository } from 'typeorm';
@@ -14,9 +14,9 @@ export class GroupService {
     @InjectRepository(Group) private groupRepository: Repository<Group>,
   ) {}
 
-  //Pulbic영역
+  // Pulbic영역
   async createGroup(spaceId: number, name) {
-    let group = this.groupRepository.create({ space_id: spaceId, name });
+    const group = this.groupRepository.create({ space_id: spaceId, name });
     try {
       await this.groupRepository.save(group);
       return { code: 200, message: '성공적으로 그룹을 생성하였습니다.' };
@@ -26,30 +26,29 @@ export class GroupService {
   }
 
   async deleteGroupById(groupId: number) {
-    let group = await this.findGroupById(groupId);
-    this.isExistingGroup(group)
-    this.groupRepository.delete(group)
+    const group = await this.findGroupById(groupId);
+    this.isExistingGroup(group);
+    this.groupRepository.delete(group);
   }
 
   async findAllGroupBySpaceId(spaceId: number) {
-    let results = await this.groupRepository.findBy({space_id: spaceId});
+    const results = await this.groupRepository.findBy({ space_id: spaceId });
     this.isExistingGroup(results[0]);
-    return results
+    return results;
   }
 
-  //Private영역
-  //Checker
-  private isExistingGroup(group: Group){
-    if(!group){
-      throw new NotFoundException('해당하는 그룹이 존재하지 않습니다.')
+  // Private영역
+  // Checker
+  private isExistingGroup(group: Group) {
+    if (!group) {
+      throw new NotFoundException('해당하는 그룹이 존재하지 않습니다.');
     }
   }
 
-
-  //DB func
+  // DB func
   private async findGroupById(groupId: number) {
     try {
-      let result = await this.groupRepository.findOneBy({ id: groupId });
+      const result = await this.groupRepository.findOneBy({ id: groupId });
       return result;
     } catch (error) {
       throw new InternalServerErrorException('서버 오류 발생');

@@ -7,6 +7,6 @@ import { GroupMember } from './entities/group-members.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([GroupMember])],
   providers: [GroupMembersService],
-  controllers: [GroupMembersController]
+  controllers: [GroupMembersController],
 })
 export class GroupMembersModule {}

@@ -4,8 +4,11 @@ import {
   Column,
   ManyToOne,
   OneToMany,
-  Index,
+  // Index, 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
   JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { Space } from 'src/spaces/entities/space.entity';
@@ -61,4 +64,13 @@ export class SpaceMember {
 
   @OneToMany(() => Mail, (mail) => mail.space_member, { onDelete: 'CASCADE' })
   mails: Mail[];
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  @DeleteDateColumn()
+  deleted_at?: Date;
 }

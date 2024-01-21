@@ -7,7 +7,11 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SpaceMemberDau } from '../space-members/entities/space-member-dau.entity';
-import { Between, Repository, getRepository } from 'typeorm';
+import {
+  Between,
+  Repository,
+  // getRepository 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
+} from 'typeorm';
 
 @Injectable()
 export class SpaceMemberDauService {
@@ -16,13 +20,13 @@ export class SpaceMemberDauService {
     private spaceMemberDauRepository: Repository<SpaceMemberDau>,
   ) {}
 
-  //UTC문제
-  //Public영역
+  // UTC문제
+  // Public영역
   async setEnterTime(memberId: number) {
-    //오늘 생성된 것이 있나 확인해야함.
-    let todaySpaceMemberDau = await this.findTodaySpaceMemberDau(memberId);
+    // 오늘 생성된 것이 있나 확인해야함.
+    const todaySpaceMemberDau = await this.findTodaySpaceMemberDau(memberId);
     await this.isNotExistingTodayEnterTime(todaySpaceMemberDau);
-    let startTime = this.spaceMemberDauRepository.create({
+    const startTime = this.spaceMemberDauRepository.create({
       member_id: memberId,
       created_at: new Date(),
     });
@@ -33,19 +37,19 @@ export class SpaceMemberDauService {
       throw new ConflictException('존재하지 않는 멤버입니다.');
     }
   }
-  //이건 시간 형식 모르면 어떻게 할 수가 없다 나중에 물어보자.
-  //입장 시간 받는다고 생각하자. disconnet하면 입장 시간 보내주고 내가 new Date하는걸로
-  //string가 더 편할지도
+  // 이건 시간 형식 모르면 어떻게 할 수가 없다 나중에 물어보자.
+  // 입장 시간 받는다고 생각하자. disconnet하면 입장 시간 보내주고 내가 new Date하는걸로
+  // string가 더 편할지도
+  // time => 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
   async setLeaveTime(memberId: number, time: Date) {
-    let result = await this.findTodaySpaceMemberDau(memberId);
-    if(result){
-      throw new NotFoundException("오늘 입장하신 적이 없는 멤버입니다.")
+    const result = await this.findTodaySpaceMemberDau(memberId);
+    if (result) {
+      throw new NotFoundException('오늘 입장하신 적이 없는 멤버입니다.');
     }
-    
   }
 
-  //Private 영역
-  //DB func
+  // Private 영역
+  // DB func
   private async findTodaySpaceMemberDau(memberId: number) {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // 오늘의 시작 시간으로 설정
@@ -57,28 +61,27 @@ export class SpaceMemberDauService {
       const todaySpaceMemberDau = await this.spaceMemberDauRepository.findOne({
         where: {
           created_at: Between(today, tomorrow),
-          member_id: memberId
+          member_id: memberId,
         },
       });
-      return todaySpaceMemberDau
+      return todaySpaceMemberDau;
     } catch (error) {
       throw new InternalServerErrorException('내부 서버 에러');
     }
   }
 
-  private async addActiveTime(time: Date) {
+  private async addActiveTime(time: Date) {}
+
+  // Checker
+  private async isExistingTodayEnterTime(spaceMemberDau: SpaceMemberDau) {
+    if (!spaceMemberDau) {
+      throw new BadRequestException('오늘 입장한 적이 없는 유저입니다.');
+    }
   }
 
-  //Checker
-  private async isExistingTodayEnterTime(spaceMemberDau: SpaceMemberDau){
-    if(!spaceMemberDau){
-      throw new BadRequestException("오늘 입장한 적이 없는 유저입니다.")
-    }
-  };
-
-  private async isNotExistingTodayEnterTime(spaceMemberDau: SpaceMemberDau){
-    if(spaceMemberDau){
-      throw new BadRequestException("오늘 입장한 적이 있는 유저입니다.")
+  private async isNotExistingTodayEnterTime(spaceMemberDau: SpaceMemberDau) {
+    if (spaceMemberDau) {
+      throw new BadRequestException('오늘 입장한 적이 있는 유저입니다.');
     }
   }
 }

@@ -1,11 +1,18 @@
-import { Body, Controller, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Patch,
+  Post,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { LectureProgressService } from './lecture-progress.service';
 import { CreateLectureProgressDto } from './dto/create-lecture-progress.dto';
 import { UpdateLectureProgressDto } from './dto/update-lecture-progress.dto';
 
 @Controller('lecture-progress')
 export class LectureProgressController {
-  constructor(private lectureProgressService: LectureProgressService){}
+  constructor(private lectureProgressService: LectureProgressService) {}
 
   // 강의진도 생성하기
   // 강의진도 업데이트하기
@@ -16,14 +23,21 @@ export class LectureProgressController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  async createLectureProgressInLecture(@Body() createLectureProgressDto: CreateLectureProgressDto) {
-    return await this.lectureProgressService.createLectureProgressInLecture(createLectureProgressDto)
+  async createLectureProgressInLecture(
+    @Body() createLectureProgressDto: CreateLectureProgressDto,
+  ) {
+    return await this.lectureProgressService.createLectureProgressInLecture(
+      createLectureProgressDto,
+    );
   }
 
   @Patch()
   @UsePipes(ValidationPipe)
-  async updateLectureProgressById(@Body() updateLectureProgressDto: UpdateLectureProgressDto){
-    return await this.lectureProgressService.updateLectureProgressById(updateLectureProgressDto)
+  async updateLectureProgressById(
+    @Body() updateLectureProgressDto: UpdateLectureProgressDto,
+  ) {
+    return await this.lectureProgressService.updateLectureProgressById(
+      updateLectureProgressDto,
+    );
   }
-
 }

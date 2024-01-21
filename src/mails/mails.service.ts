@@ -21,14 +21,14 @@ export class MailsService {
       select: ['id', 'user_id', 'role'],
     });
 
-    // role이 관리자이거나 매니저가 아닌 사람에게만 발송하기.
+    // role이 관리자이거나 매니저가 아닌 사람에게만 발송하기. isNotAdmin -> 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
     const isNotAdmin = isSpaceMembers.filter(
       (user) => user.role !== 0 && user.role !== 1,
     );
 
     // space_member에 속하는 사람에게 메일 생성.
     isSpaceMembers.forEach(async (member) => {
-      let result = await this.mailsRepository.save({
+      const result = await this.mailsRepository.save({
         member_id: member.id,
         title: `${title} 강의 지급!`,
         content: `강의 ${title}가 지급되었습니다. 지금 확인해보세요!`,

@@ -23,7 +23,7 @@ export class PayService {
         },
         {
           headers: {
-            Authorization:
+            "Authorization":
               'Basic ' + Buffer.from(`${secretKey}:`).toString('base64'),
             'Content-Type': 'application/json',
           },

@@ -1,5 +1,13 @@
 // src/users/entities/user.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+} from 'typeorm';
 import { SpaceMember } from 'src/space-members/entities/space-member.entity';
 import { SkinType } from '../types/user-skin.type';
 import { HairType } from '../types/user-hiar.type';
@@ -55,4 +63,13 @@ export class User {
 
   @OneToMany(() => Space, (space) => space.user, { onDelete: 'CASCADE' })
   space: Space[];
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  @DeleteDateColumn()
+  deleted_at?: Date;
 }

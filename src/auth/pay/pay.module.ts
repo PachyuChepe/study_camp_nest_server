@@ -4,6 +4,6 @@ import { PayService } from './pay.service';
 
 @Module({
   controllers: [PayController],
-  providers: [PayService]
+  providers: [PayService],
 })
 export class PayModule {}

@@ -15,6 +15,7 @@ import { LocalStrategy } from './strategy/local.strategy';
 import { GoogleStrategy } from './strategy/google.strategy';
 import { EmailService } from './nodemailer/auth.nodemailer';
 import { PayModule } from './pay/pay.module';
+import { SpacesModule } from 'src/spaces/spaces.module';
 import { SseModule } from 'src/sse/sse.module';
 
 @Module({
@@ -31,6 +32,7 @@ import { SseModule } from 'src/sse/sse.module';
     UsersModule,
     RedisModule,
     PayModule,
+    SpacesModule,
     SseModule,
   ],
   providers: [

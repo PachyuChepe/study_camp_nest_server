@@ -1,7 +1,10 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import {
+  IsNotEmpty,
+  IsNumber,
+  // IsString 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
+} from 'class-validator';
 
 export class CreateLectureDto {
-
   @IsNotEmpty()
   @IsNumber()
   spaceId: number;
@@ -9,5 +12,4 @@ export class CreateLectureDto {
   @IsNotEmpty()
   @IsNotEmpty()
   title: string;
-
 }

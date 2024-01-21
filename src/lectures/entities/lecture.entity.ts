@@ -6,6 +6,9 @@ import {
   ManyToOne,
   OneToMany,
   JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 import { LectureItem } from '../../lecture-items/entities/lecture-items.entity';
 import { LectureProgress } from '../../lecture-progress/dto/entities/lecture-progress.entity';
@@ -40,4 +43,13 @@ export class Lecture {
     onDelete: 'CASCADE',
   })
   lecture_items: LectureItem[];
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  @DeleteDateColumn()
+  deleted_at?: Date;
 }

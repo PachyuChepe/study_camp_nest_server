@@ -36,7 +36,21 @@ export class UsersService {
   }
 
   async findOne(email: string): Promise<User | undefined> {
-    const user = await this.userRepository.findOne({ where: { email } });
+    const user = await this.userRepository.findOne({
+      where: { email },
+      select: [
+        'id',
+        'email',
+        'nick_name',
+        'point',
+        'skin',
+        'hair',
+        'face',
+        'clothes',
+        'hair_color',
+        'clothes_color',
+      ],
+    });
     if (!user) {
       throw new NotFoundException(
         `이메일이 ${email}인 사용자를 찾을 수 없습니다.`,

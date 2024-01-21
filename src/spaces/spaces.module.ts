@@ -4,6 +4,7 @@ import { SpacesController } from './spaces.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Space } from './entities/space.entity';
 import { SpaceMembersModule } from 'src/space-members/space-members.module';
+import { SpaceMember } from 'src/space-members/entities/space-member.entity';
 
 // https://www.erdcloud.com/d/DXsDN9Jvr5qXuivwz
 // space 학습 공간 O
@@ -15,10 +16,11 @@ import { SpaceMembersModule } from 'src/space-members/space-members.module';
 // lectureItems 강의 영상
 // lectureProgress 강의 진도율
 @Module({
-  imports: [TypeOrmModule.forFeature([Space]), SpaceMembersModule],
+  imports: [TypeOrmModule.forFeature([Space, SpaceMember]), SpaceMembersModule],
   controllers: [SpacesController],
   providers: [SpacesService],
+  exports: [SpacesService],
 })
 export class SpacesModule {}
-//Post space/
-//근거가 있는 구조를 만들자.
+// Post space/
+// 근거가 있는 구조를 만들자.

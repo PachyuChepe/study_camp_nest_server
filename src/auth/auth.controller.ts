@@ -18,12 +18,16 @@ import { AuthService } from './auth.service';
 import { SendVerificationCodeDto } from '../auth/dto/send-verification-code.dto';
 import { VerifyEmailDto } from '../auth/dto/verify-email.dto';
 import { LocalAuthGuard } from './guard/local-auth.guard';
+import { SpacesService } from 'src/spaces/spaces.service';
+import { UsersService } from '../users/users.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
     private redisService: RedisService,
+    private spacesService: SpacesService,
+    private userService: UsersService,
   ) {}
 
   @Post('/login')
@@ -44,7 +48,15 @@ export class AuthController {
 
     const newAccessToken = this.authService.generateAccessToken(user);
 
-    return { access_token: newAccessToken };
+    // 사용자가 멤버인 스페이스 목록 가져오기
+    const memberSpaces = await this.spacesService.findSpacesByMember(user.id);
+    const memberSearch = await this.userService.findOne(user.email);
+
+    return {
+      access_token: newAccessToken,
+      member_spaces: memberSpaces, // 추가
+      memberSearch: memberSearch, // 추가
+    };
   }
 
   @Post('/send-verification')

@@ -1,5 +1,5 @@
 import {
-  BadGatewayException,
+  // BadGatewayException, 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
   BadRequestException,
   Injectable,
   NotFoundException,
@@ -23,7 +23,7 @@ export class AlarmsService {
 
   // 알람 생성
   async create(createAlarmDto: CreateAlarmDto, spaceId: number) {
-    let existAlarm = await this.alarmsRepository.findOne({
+    const existAlarm = await this.alarmsRepository.findOne({
       where: {
         time: createAlarmDto.time,
         type: createAlarmDto.type,
@@ -62,7 +62,7 @@ export class AlarmsService {
     alarmId: number,
     createAlarmDto: CreateAlarmDto,
   ) {
-    let existAlarm = await this.alarmsRepository.findOne({
+    const existAlarm = await this.alarmsRepository.findOne({
       where: {
         space_id: spaceId,
         id: alarmId,
@@ -78,7 +78,7 @@ export class AlarmsService {
 
   // 알람 삭제
   async remove(spaceId: number, alarmId: number) {
-    let existAlarm = await this.alarmsRepository.findOne({
+    const existAlarm = await this.alarmsRepository.findOne({
       where: {
         space_id: spaceId,
         id: alarmId,

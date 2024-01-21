@@ -9,7 +9,9 @@ describe('LectureProgressController', () => {
       controllers: [LectureProgressController],
     }).compile();
 
-    controller = module.get<LectureProgressController>(LectureProgressController);
+    controller = module.get<LectureProgressController>(
+      LectureProgressController,
+    );
   });
 
   it('should be defined', () => {
