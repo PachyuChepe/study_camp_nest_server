@@ -6,6 +6,7 @@ import { UsersService } from '../users/users.service';
 import { EmailService } from './nodemailer/auth.nodemailer';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { User } from 'src/users/entities/user.entity';
+import { SseService } from './../sse/sse.service';
 
 @Injectable()
 export class AuthService {
@@ -14,6 +15,7 @@ export class AuthService {
     private jwtService: JwtService,
     private redisService: RedisService,
     private emailService: EmailService,
+    private sseService: SseService,
   ) {}
 
   async validateUser(email: string, pass: string): Promise<any> {
@@ -33,6 +35,10 @@ export class AuthService {
     const refreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
 
     await this.redisService.setRefreshToken(user.email, refreshToken);
+
+    // sse 연결
+
+    this.sseService.emitAlarmsEvent(user.id);
 
     return {
       message: '로그인 완료',

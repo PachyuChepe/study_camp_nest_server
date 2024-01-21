@@ -26,7 +26,7 @@ import { Group } from './group/entities/group.entity';
 import { GroupMember } from './group-members/entities/group-members.entity';
 import { Lecture } from './lectures/entities/lecture.entity';
 import { LectureItem } from './lecture-items/entities/lecture-items.entity';
-import { LectureProgress } from './lecture-progress/entities/lecture-progress.entity';
+import { LectureProgress } from './lecture-progress/dto/entities/lecture-progress.entity';
 import { Alarm } from './alarms/entities/alarm.entity';
 import { Mail } from './mails/entities/mail.entity';
 import { AllExceptionsFilter } from './auth/error-logging/error-logging.service';
@@ -38,6 +38,7 @@ import { LectureProgressModule } from './lecture-progress/lecture-progress.modul
 // 결제 API 테스트 클라이언트 정적 연결
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { SseModule } from './sse/sse.module';
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -103,6 +104,7 @@ const typeOrmModuleOptions = {
     GroupMembersModule,
     LectureItemsModule,
     LectureProgressModule,
+    SseModule,
   ],
   controllers: [
     // AppController

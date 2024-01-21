@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { LectureProgress } from './entities/lecture-progress.entity';
+import { LectureProgress } from './dto/entities/lecture-progress.entity';
 import { Repository } from 'typeorm';
 import { CreateLectureProgressDto } from './dto/create-lecture-progress.dto';
 import { UpdateLectureProgressDto } from './dto/update-lecture-progress.dto';
@@ -90,6 +90,6 @@ export class LectureProgressService {
         lectureItemsCompleted++;
       }
     }
-    return lectureItemsCompleted/total;
+    return lectureItemsCompleted / total;
   }
 }

@@ -26,7 +26,7 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "name": "testfor",
+  "name": "test2",
   "userId": 1,
   "classId": 1
 }
@@ -62,8 +62,8 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "userId": 2,
-  "spaceId": 4
+  "userId": 1,
+  "spaceId": 6
 }
 ###
 # 학습공간에서 유저 추방하기
@@ -155,7 +155,7 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "spaceId": 4,
+  "spaceId": 5,
   "title": "testTitle"
 }
 
