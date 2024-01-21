@@ -6,6 +6,9 @@ import {
   OneToMany,
   Index,
   JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { Space } from 'src/spaces/entities/space.entity';
@@ -26,7 +29,9 @@ export class SpaceMember {
   @Column({ type: 'int', nullable: false })
   user_id: number;
 
-  @ManyToOne(() => Space, (space) => space.spaceMembers, {onDelete: 'CASCADE'})
+  @ManyToOne(() => Space, (space) => space.spaceMembers, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'space_id' })
   space: Space;
   @Column({ type: 'int', nullable: false })
@@ -59,4 +64,13 @@ export class SpaceMember {
 
   @OneToMany(() => Mail, (mail) => mail.space_member, { onDelete: 'CASCADE' })
   mails: Mail[];
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  @DeleteDateColumn()
+  deleted_at?: Date;
 }

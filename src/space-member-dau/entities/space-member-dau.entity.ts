@@ -6,6 +6,8 @@ import {
   ManyToOne,
   JoinColumn,
   CreateDateColumn,
+  DeleteDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { SpaceMember } from 'src/space-members/entities/space-member.entity';
 
@@ -34,5 +36,11 @@ export class SpaceMemberDau {
 
   @CreateDateColumn()
   created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  @DeleteDateColumn()
+  deleted_at?: Date;
 }
 */

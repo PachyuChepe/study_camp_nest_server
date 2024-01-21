@@ -6,6 +6,9 @@ import {
   OneToOne,
   JoinColumn,
   ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 import { SpaceMember } from 'src/space-members/entities/space-member.entity';
 import { SpaceClass } from './space-class.entity';
@@ -51,4 +54,13 @@ export class Space {
 
   @OneToMany(() => Alarm, (alarm) => alarm.space, { onDelete: 'CASCADE' })
   alarms: Alarm[];
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  @DeleteDateColumn()
+  deleted_at?: Date;
 }

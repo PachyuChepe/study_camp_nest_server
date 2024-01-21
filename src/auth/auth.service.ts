@@ -6,6 +6,7 @@ import { UsersService } from '../users/users.service';
 import { EmailService } from './nodemailer/auth.nodemailer';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { User } from 'src/users/entities/user.entity';
+import { SpacesService } from 'src/spaces/spaces.service';
 
 @Injectable()
 export class AuthService {
@@ -14,6 +15,7 @@ export class AuthService {
     private jwtService: JwtService,
     private redisService: RedisService,
     private emailService: EmailService,
+    private spacesService: SpacesService,
   ) {}
 
   async validateUser(email: string, pass: string): Promise<any> {
@@ -34,12 +36,16 @@ export class AuthService {
 
     await this.redisService.setRefreshToken(user.email, refreshToken);
 
+    const memberSpaces = await this.spacesService.findSpacesByMember(user.id);
+    const memberSearch = await this.userService.findOne(user.email);
+
     return {
       message: '로그인 완료',
       access_token: accessToken,
+      member_spaces: memberSpaces, // 추가
+      memberSearch: memberSearch, //추가
     };
   }
-
   async sendVerificationCode(email: string): Promise<void> {
     // const code = Math.random().toString(36).substring(2, 8);
     const code = Math.floor(Math.random() * (999999 - 100000)) + 100000;

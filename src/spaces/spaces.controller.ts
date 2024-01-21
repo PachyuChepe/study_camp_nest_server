@@ -17,7 +17,6 @@ import { UpdateSpaceDto } from './dto/update-space.dto';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { AuthGuard } from '@nestjs/passport';
 
-
 @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
 @Controller('spaces')
 export class SpacesController {
@@ -26,14 +25,17 @@ export class SpacesController {
   //학습공간을 만듭니다.
   @Post()
   @UsePipes(ValidationPipe)
-  async createSpace(@Body() createSpaceDto: CreateSpaceDto) {
-    return await this.spacesService.createSpace(createSpaceDto);
+  async createSpace(@Request() req, @Body() createSpaceDto: CreateSpaceDto) {
+    // 요청 객체에서 사용자 ID 추출
+    const userId = req.user.id;
+
+    return await this.spacesService.createSpace(createSpaceDto, userId);
   }
 
   //학슬공간을 삭제합니다.
   @Delete()
-  async deleteSpaceByName( name: string ) {
-    return await this.spacesService.deleteSpace(name);
+  async deleteSpaceByName(@Body('name') name: string, @Request() req) {
+    return await this.spacesService.deleteSpace(name, req.user.id);
   }
 
   //TODO: 어떻게 유저 정보 얻어오는지 알아오기
@@ -41,8 +43,13 @@ export class SpacesController {
   //가드인가 데코레이터인가 일단 user:any로 해놓아야지
   //유저 정보를 통해 학습공간을 찾습니다. -> 유저가 속한 학습공간을 모두 찾기 위한 것입니다.
   //GetUserDecorator?
+  // @Get()
+  // async findSpacesByUser(user: any, @Request() req) {
+  //   return await this.spacesService.findSpacesByUser(req.user);
+  // }
+
   @Get()
-  async findSpacesByUser(user: any, @Request() req){
-    return await this.spacesService.findSpacesByUser(req.user)
+  async findMemberSpaces(@Request() req) {
+    return await this.spacesService.findSpacesByMember(req.user.id);
   }
 }

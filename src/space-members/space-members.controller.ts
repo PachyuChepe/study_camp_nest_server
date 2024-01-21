@@ -9,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import { SpaceMembersService } from './space-members.service';
 import { CreateSpaceMemberDto } from './dto/create-space-member.dto';
@@ -25,13 +26,26 @@ export class SpaceMembersController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  async addMemberInSpace(@Body() addMemberInSpaceDto: AddMemberInSpaceDto){
+  async addMemberInSpace(@Body() addMemberInSpaceDto: AddMemberInSpaceDto) {
     return await this.spaceMembersService.addMemberInSpace(addMemberInSpaceDto);
   }
 
+  // @Delete()
+  // @UsePipes(ValidationPipe)
+  // async deleteMemberInSpace(@Body() deleteMemberInSpaceDto: DeleteMemberInSpaceDto) {
+  //   return await this.spaceMembersService.deleteMemberInSpace(deleteMemberInSpaceDto);
+  // }
+
   @Delete()
   @UsePipes(ValidationPipe)
-  async deleteMemberInSpace(@Body() deleteMemberInSpaceDto: DeleteMemberInSpaceDto) {
-    return await this.spaceMembersService.deleteMemberInSpace(deleteMemberInSpaceDto);
+  async deleteMemberInSpace(
+    @Body() deleteMemberInSpaceDto: DeleteMemberInSpaceDto,
+    @Request() req,
+  ) {
+    // creatorId를 직접 서비스 메소드에 전달
+    return await this.spaceMembersService.deleteMemberInSpace(
+      deleteMemberInSpaceDto,
+      req.user.id, // 현재 로그인한 사용자의 ID를 전달
+    );
   }
 }

@@ -52,7 +52,7 @@ Content-Type: application/json
 {
   "password": "123qweQWE!",
   "nick_name": "일반좁밥",
-  "skin": 1,
+  "skin": "123123",
   "hair": 2,
   "face": 3,
   "clothes": 4,
@@ -79,7 +79,7 @@ POST {{domain}}/auth/send-verification
 Content-Type: application/json
 
 {
-  "email": "user@gmail.com"
+  "email": "pachyuchepe@gmail.com"
 }
 
 ###

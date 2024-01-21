@@ -4,6 +4,9 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 import { Space } from 'src/spaces/entities/space.entity';
 import { AlarmType } from '../types/alarm-type.type';
@@ -24,4 +27,13 @@ export class Alarm {
 
   @Column()
   time: Date;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  @DeleteDateColumn()
+  deleted_at?: Date;
 }

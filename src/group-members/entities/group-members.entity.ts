@@ -4,6 +4,9 @@ import {
   ManyToOne,
   JoinColumn,
   Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 import { Group } from '../../group/entities/group.entity';
 import { SpaceMember } from 'src/space-members/entities/space-member.entity';
@@ -24,4 +27,13 @@ export class GroupMember {
   space_member: SpaceMember;
   @Column({ type: 'int', nullable: false })
   member_id: number;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  @DeleteDateColumn()
+  deleted_at?: Date;
 }
