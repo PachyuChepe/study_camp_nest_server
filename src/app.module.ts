@@ -39,6 +39,8 @@ import { LectureProgressModule } from './lecture-progress/lecture-progress.modul
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { SseModule } from './sse/sse.module';
+import { DmsModule } from './dms/dms.module';
+import { Dm } from './dms/entities/dm.entity';
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -64,6 +66,7 @@ const typeOrmModuleOptions = {
       LectureProgress,
       Alarm,
       Mail,
+      Dm,
     ],
     synchronize: configService.get('DB_SYNC'),
     logging: true,
@@ -105,6 +108,7 @@ const typeOrmModuleOptions = {
     LectureItemsModule,
     LectureProgressModule,
     SseModule,
+    DmsModule,
   ],
   controllers: [
     // AppController
