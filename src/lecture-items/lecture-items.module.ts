@@ -7,6 +7,6 @@ import { LectureItem } from './entities/lecture-items.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([LectureItem])],
   controllers: [LectureItemsController],
-  providers: [LectureItemsService]
+  providers: [LectureItemsService],
 })
 export class LectureItemsModule {}

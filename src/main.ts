@@ -6,6 +6,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { RavenInterceptor } from 'nest-raven';
+// import express from 'express'; 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 

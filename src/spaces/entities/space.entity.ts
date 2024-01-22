@@ -3,9 +3,12 @@ import {
   PrimaryGeneratedColumn,
   Column,
   OneToMany,
-  OneToOne,
+  // OneToOne, 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
   JoinColumn,
   ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 import { SpaceMember } from 'src/space-members/entities/space-member.entity';
 import { SpaceClass } from './space-class.entity';
@@ -31,7 +34,7 @@ export class Space {
   @Column({ type: 'int', name: 'class_id' })
   class_id: number;
 
-  //TODO: 이거 유니크한 값인지 물어봐야 한다.
+  // TODO: 이거 유니크한 값인지 물어봐야 한다.
   @Column({ type: 'varchar' })
   name: string;
 
@@ -48,4 +51,13 @@ export class Space {
 
   @OneToMany(() => Alarm, (alarm) => alarm.space, { onDelete: 'CASCADE' })
   alarms: Alarm[];
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  @DeleteDateColumn()
+  deleted_at?: Date;
 }
