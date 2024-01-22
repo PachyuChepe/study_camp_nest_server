@@ -8,6 +8,7 @@ import { ClothesType } from '../types/user-clothes.type';
 import { ClothesColorType } from '../types/user-clothes-color.type';
 import { HairColorType } from '../types/user-hiar-color.type';
 import { Space } from 'src/spaces/entities/space.entity';
+import { Dm } from 'src/dms/entities/dm.entity';
 
 @Entity('users')
 export class User {
@@ -55,4 +56,10 @@ export class User {
 
   @OneToMany(() => Space, (space) => space.user, { onDelete: 'CASCADE' })
   space: Space[];
+
+  @OneToMany(() => Dm, (dm) => dm.receive_user, { onDelete: 'CASCADE' })
+  received_dms: Dm[];
+
+  @OneToMany(() => Dm, (dm) => dm.send_user, { onDelete: 'CASCADE' })
+  sent_dms: Dm[];
 }
