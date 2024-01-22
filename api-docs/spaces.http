@@ -9,7 +9,7 @@ POST {{domain}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "user1@gmail.com",
+  "email": "test@gmail.com",
   "password": "123qweQWE!"
 }
 
@@ -125,8 +125,8 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "groupId": 3,
-  "memberId": 3
+  "groupId": 1,
+  "memberId": 1
 }
 
 ###
@@ -155,7 +155,7 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "spaceId": 5,
+  "spaceId": 10,
   "title": "testTitle"
 }
 
