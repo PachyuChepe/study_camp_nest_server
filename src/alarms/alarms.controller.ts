@@ -25,7 +25,7 @@ export class AlarmsController {
     @Body() createAlarmDto: CreateAlarmDto,
     @Param('spaceId') spaceId: string,
   ) {
-    let data = await this.alarmsService.create(createAlarmDto, +spaceId);
+    const data = await this.alarmsService.create(createAlarmDto, +spaceId);
 
     return {
       statusCode: HttpStatus.CREATED,
@@ -56,7 +56,7 @@ export class AlarmsController {
     @Param('alarmId') alarmId: string,
     @Body() createAlarmDto: CreateAlarmDto,
   ) {
-    let update = await this.alarmsService.update(
+    const update = await this.alarmsService.update(
       +spaceId,
       +alarmId,
       createAlarmDto,

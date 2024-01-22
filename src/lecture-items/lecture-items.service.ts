@@ -15,19 +15,19 @@ export class LectureItemsService {
     private lectureItemRepository: Repository<LectureItem>,
   ) {}
 
-  //Public영역
+  // Public영역
   async createLectureItemInLecture(
     createLectureItemsDto: CreateLectureItemsDto,
   ) {
-    //TODO 제발 구조분해 할당좀 이용해라 정훈아 이게 C++이냐 진짜 너무한거 아니냐
-    let lecture = this.lectureItemRepository.create({
+    // TODO 제발 구조분해 할당좀 이용해라 정훈아 이게 C++이냐 진짜 너무한거 아니냐
+    const lecture = this.lectureItemRepository.create({
       lecture_id: createLectureItemsDto.lectureId,
       title: createLectureItemsDto.title,
       url: createLectureItemsDto.url,
     });
     try {
       await this.lectureItemRepository.save(lecture);
-      //TODP POST부분은 제발 다 201로 바꾸고
+      // TODP POST부분은 제발 다 201로 바꾸고
       return { code: 201, message: '강의영상을 성공적으로 등록하였습니다.' };
     } catch (error) {
       throw new InternalServerErrorException('서버 오류 발생');
@@ -35,7 +35,7 @@ export class LectureItemsService {
   }
 
   async deleteLectureItemByID(lectureItemId: number) {
-    let exLectureItem = await this.findLectureItemsByID(lectureItemId);
+    const exLectureItem = await this.findLectureItemsByID(lectureItemId);
     if (!exLectureItem) {
       throw new NotFoundException('존재하지 않는 강의 영상입니다.');
     }
@@ -58,7 +58,7 @@ export class LectureItemsService {
     }
   }
 
-  //Private영역
+  // Private영역
   private async findLectureItemsByID(lectureItemId: number) {
     try {
       return await this.lectureItemRepository.findOneBy({ id: lectureItemId });

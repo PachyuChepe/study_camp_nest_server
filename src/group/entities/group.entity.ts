@@ -5,6 +5,9 @@ import {
   ManyToOne,
   OneToMany,
   JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 import { Space } from 'src/spaces/entities/space.entity';
 import { GroupMember } from '../../group-members/entities/group-members.entity';
@@ -27,4 +30,13 @@ export class Group {
     onDelete: 'CASCADE',
   })
   group_members: GroupMember[];
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  @DeleteDateColumn()
+  deleted_at?: Date;
 }

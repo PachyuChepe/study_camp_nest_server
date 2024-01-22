@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateDmDto } from './dto/create-dm.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Dm } from './entities/dm.entity';
-import { LessThan, Repository, Timestamp } from 'typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class DmsService {
