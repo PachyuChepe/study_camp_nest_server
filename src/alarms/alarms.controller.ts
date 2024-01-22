@@ -29,7 +29,7 @@ export class AlarmsController {
 
     return {
       statusCode: HttpStatus.CREATED,
-      message: `알람 생성 성공`,
+      message: '알람 생성 성공',
       data: data,
     };
   }
@@ -64,7 +64,7 @@ export class AlarmsController {
 
     return {
       statusCode: HttpStatus.OK,
-      message: `알람 수정 성공`,
+      message: '알람 수정 성공',
       data: update,
     };
   }
