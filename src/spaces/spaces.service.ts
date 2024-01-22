@@ -58,7 +58,8 @@ export class SpacesService {
       exUser.user_id = newSpace.user_id;
       exUser.space_id = newSpace.id;
       await this.spaceMemberService.saveSpaceMember(exUser);
-      return { code: 201, message: 'You succesfully make a space' };
+      const spaces = await this.findSpacesByMember(userId);
+      return { code: 201, message: 'You succesfully make a space', spaces };
     } catch (error) {
       // 고쳐아 함.
       if (error.errno == 1452) {
