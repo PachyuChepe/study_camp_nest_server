@@ -62,8 +62,13 @@ export class UsersService {
   async findByEmail(email: string): Promise<User | undefined> {
     const user = await this.userRepository.findOne({ where: { email } });
     if (user) {
-      throw new NotFoundException(`이미 존재하는 이메일입니다.`);
+      throw new NotFoundException('이미 존재하는 이메일입니다.');
     }
+    return user;
+  }
+
+  async findByEmailGoogle(email: string): Promise<User | undefined> {
+    const user = await this.userRepository.findOne({ where: { email } });
     return user;
   }
 
