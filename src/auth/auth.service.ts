@@ -61,7 +61,7 @@ export class AuthService {
   }
 
   async validateOAuthLogin(userProfile: any): Promise<User> {
-    let user = await this.userService.findByEmail(userProfile.email);
+    let user = await this.userService.findByEmailGoogle(userProfile.email);
     if (!user) {
       const newUser = new CreateUserDto();
       newUser.email = userProfile.email;

@@ -54,4 +54,22 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
   async getVerificationCode(email: string): Promise<string | null> {
     return await this.client.get(`verification_code:${email}`);
   }
+
+  // Google OAuth 인증 데이터 저장
+  async saveAuthData(userId: string, data: any): Promise<void> {
+    await this.client.set(`auth_data:${userId}`, JSON.stringify(data), {
+      EX: 60 * 5, // 5분 유효기간
+    });
+  }
+
+  // Google OAuth 인증 데이터 검색
+  async getAuthData(userId: string): Promise<any> {
+    const data = await this.client.get(`auth_data:${userId}`);
+    return data ? JSON.parse(data) : null;
+  }
+
+  // Google OAuth 인증 데이터 삭제
+  async removeAuthData(userId: string): Promise<void> {
+    await this.client.del(`auth_data:${userId}`);
+  }
 }
