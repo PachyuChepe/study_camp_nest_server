@@ -29,7 +29,11 @@ export class SpacesController {
     // 요청 객체에서 사용자 ID 추출
     const userId = req.user.id;
 
-    return await this.spacesService.createSpace(createSpaceDto, userId);
+    return await this.spacesService.createSpace(
+      createSpaceDto.name,
+      createSpaceDto.classId,
+      userId,
+    );
   }
 
   // 학슬공간을 삭제합니다.
@@ -51,5 +55,10 @@ export class SpacesController {
   @Get()
   async findMemberSpaces(@Request() req) {
     return await this.spacesService.findSpacesByMember(req.user.id);
+  }
+
+  @Get('/classes')
+  async getAllSpaceClasses() {
+    return await this.spacesService.findAllSpaceClasses();
   }
 }

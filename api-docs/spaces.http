@@ -82,6 +82,12 @@ Content-Type: application/json
 }
 
 ###
+# 스페이스 클래스 전체 조회 (타입, 최대수용인원, 가격)
+GET {{domain}}/spaces/classes
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+###
 # 그룹을 생성합니다.
 # 학습공간이 미리 만들어져 있어야 합니다.
 # 학습공간을 URL parameter로받습니다.
