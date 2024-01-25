@@ -76,6 +76,20 @@ export class SpaceMembersService {
     }
   }
 
+  async getMemberInSpace(getMemberInSpaceDto, userId) {
+    try {
+      const member = await this.spaceMemberRepository.findOne({
+        where: { space_id: getMemberInSpaceDto.spaceId, user_id: userId },
+      });
+      if (!member) {
+        throw new NotFoundException('해당 스페이스 멤버가 존재하지 않습니다.');
+      }
+      return member;
+    } catch (error) {
+      throw new InternalServerErrorException('서버 오류 발생');
+    }
+  }
+
   // async deleteMemberInSpace(deleteMemberInSpaceDto: DeleteMemberInSpaceDto) {
   //   let exUser = await this.findUserById(deleteMemberInSpaceDto.userId);
   //   if (!exUser) {

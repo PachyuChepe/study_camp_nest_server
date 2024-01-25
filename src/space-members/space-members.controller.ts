@@ -10,6 +10,8 @@ import {
   ValidationPipe,
   UseGuards,
   Request,
+  Get,
+  Req,
 } from '@nestjs/common';
 import { SpaceMembersService } from './space-members.service';
 // import { CreateSpaceMemberDto } from './dto/create-space-member.dto'; 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
@@ -18,6 +20,7 @@ import { AddMemberInSpaceDto } from './dto/add-member-in-space.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { DeleteMemberInSpaceDto } from './dto/delete-member-in-space.dto';
+import { GetMemberInSpaceDto } from './dto/get-member-in-space.dto';
 
 @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
 @Controller('space-members')
@@ -28,6 +31,18 @@ export class SpaceMembersController {
   @UsePipes(ValidationPipe)
   async addMemberInSpace(@Body() addMemberInSpaceDto: AddMemberInSpaceDto) {
     return await this.spaceMembersService.addMemberInSpace(addMemberInSpaceDto);
+  }
+
+  @Get()
+  @UsePipes(ValidationPipe)
+  async getMemberInSpace(
+    @Body() getMemberInSpaceDto: GetMemberInSpaceDto,
+    @Req() req,
+  ) {
+    return await this.spaceMembersService.getMemberInSpace(
+      getMemberInSpaceDto,
+      req.user.id,
+    );
   }
 
   // @Delete()
