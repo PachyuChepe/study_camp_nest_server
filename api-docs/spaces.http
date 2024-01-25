@@ -9,7 +9,7 @@ POST {{domain}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "test@gmail.com",
+  "email": "user2@gmail.com",
   "password": "123qweQWE!"
 }
 
@@ -62,7 +62,7 @@ Content-Type: application/json
 
 {
   "userId": 2,
-  "spaceId": 1
+  "spaceId": 2
 }
 
 ###
@@ -79,6 +79,16 @@ Content-Type: application/json
 {
   "userId": 2,
   "spaceId": 1
+}
+
+###
+# 학습공간에서 멤버 정보 조회
+POST {{domain}}/space-members/info
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "spaceId": 2
 }
 
 ###

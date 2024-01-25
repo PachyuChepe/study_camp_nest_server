@@ -27,13 +27,7 @@ import { GetMemberInSpaceDto } from './dto/get-member-in-space.dto';
 export class SpaceMembersController {
   constructor(private readonly spaceMembersService: SpaceMembersService) {}
 
-  @Post()
-  @UsePipes(ValidationPipe)
-  async addMemberInSpace(@Body() addMemberInSpaceDto: AddMemberInSpaceDto) {
-    return await this.spaceMembersService.addMemberInSpace(addMemberInSpaceDto);
-  }
-
-  @Get()
+  @Post('info')
   @UsePipes(ValidationPipe)
   async getMemberInSpace(
     @Body() getMemberInSpaceDto: GetMemberInSpaceDto,
@@ -43,6 +37,12 @@ export class SpaceMembersController {
       getMemberInSpaceDto,
       req.user.id,
     );
+  }
+
+  @Post()
+  @UsePipes(ValidationPipe)
+  async addMemberInSpace(@Body() addMemberInSpaceDto: AddMemberInSpaceDto) {
+    return await this.spaceMembersService.addMemberInSpace(addMemberInSpaceDto);
   }
 
   // @Delete()
