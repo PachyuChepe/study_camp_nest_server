@@ -26,6 +26,23 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
     await this.client.quit();
   }
 
+  // access token 생성
+  async setAccessToken(userId: string, token: string): Promise<void> {
+    await this.client.set(`access_token:${userId}`, token, {
+      EX: 60 * 60 * 24 * 1, // 1일 유효기간
+    });
+  }
+
+  // access token 조회
+  async getAccessToken(userId: string): Promise<string | null> {
+    return await this.client.get(`access_token:${userId}`);
+  }
+
+  // access token 삭제
+  async removeAccessToken(userId: string): Promise<void> {
+    await this.client.del(`access_token:${userId}`);
+  }
+
   // refresh token 생성
   async setRefreshToken(userId: string, token: string): Promise<void> {
     await this.client.set(`refresh_token:${userId}`, token, {

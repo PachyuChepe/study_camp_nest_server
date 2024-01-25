@@ -33,34 +33,60 @@
       }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      /* ENV_VARIABLES */
+    </script>
   </head>
   <body>
     <div class="message">결제가 성공적으로 완료되었습니다!</div>
-    <button class="button" onclick="location.href='/'">홈으로 돌아가기</button>
+    <button class="button" id="myButton">홈으로 돌아가기</button>
   </body>
   <script>
-    function getQueryParams() {
-      const queryParams = new URLSearchParams(window.location.search);
-      return {
-        paymentKey: queryParams.get('paymentKey'),
-        orderId: queryParams.get('orderId'),
-        amount: queryParams.get('amount'),
-      };
-    }
+    let accessToken;
 
-    function sendPaymentInfoToServer() {
-      const paymentInfo = getQueryParams();
+    document.getElementById('myButton').addEventListener('click', function () {
+      window.location.href = ENV_VARS.clientUrl;
+    });
 
-      axios
-        .post('http://localhost:4000/pay/success', paymentInfo)
-        .then(function (response) {
-          console.log('결제 정보가 서버로 전송되었습니다:', response);
-        })
-        .catch(function (error) {
-          console.error('결제 정보 전송 중 에러 발생:', error);
-        });
-    }
+    window.onload = async function () {
+      try {
+        // 첫 번째 요청에서 토큰 가져오기
+        const tokenResponse = await axios.post(
+          `${ENV_VARS.serverUrl}/auth/get-token`,
+          {
+            email: ENV_VARS.email,
+          },
+        );
+        accessToken = tokenResponse.data.access_token;
+        console.log('Received Access Token:', accessToken);
 
-    window.onload = sendPaymentInfoToServer;
+        // 두 번째 요청에 토큰 사용
+        const urlParams = new URLSearchParams(window.location.search);
+        const authKey = urlParams.get('authKey');
+        const customerKey = urlParams.get('customerKey');
+
+        if (authKey && customerKey) {
+          await axios.post(
+            `${ENV_VARS.serverUrl}/payment/create-billing-key`,
+            {
+              authKey: authKey,
+              customerKey: customerKey,
+              classId: ENV_VARS.classId,
+              spaceName: ENV_VARS.spaceName,
+              email: ENV_VARS.email,
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+              },
+            },
+          );
+          console.log('Billing key created');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
   </script>
 </html>

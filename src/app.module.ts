@@ -34,6 +34,9 @@ import { SpaceMemberDauModule } from './space-member-dau/space-member-dau.module
 import { GroupMembersModule } from './group-members/group-members.module';
 import { LectureItemsModule } from './lecture-items/lecture-items.module';
 import { LectureProgressModule } from './lecture-progress/lecture-progress.module';
+import { PaymentModule } from './payment/payment.module';
+import { Payment } from './payment/entities/payment.entity';
+import { ScheduleModule } from '@nestjs/schedule';
 
 // 결제 API 테스트 클라이언트 정적 연결
 import { ServeStaticModule } from '@nestjs/serve-static';
@@ -67,6 +70,7 @@ const typeOrmModuleOptions = {
       Alarm,
       Mail,
       Dm,
+      Payment,
     ],
     synchronize: configService.get('DB_SYNC'),
     logging: true,
@@ -109,6 +113,8 @@ const typeOrmModuleOptions = {
     LectureProgressModule,
     SseModule,
     DmsModule,
+    PaymentModule,
+    ScheduleModule.forRoot(),
   ],
   controllers: [
     // AppController

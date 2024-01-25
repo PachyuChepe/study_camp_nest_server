@@ -9,7 +9,7 @@ POST {{domain}}/users
 Content-Type: application/json
 
 {
-  "email": "test1@gmail.com",
+  "email": "user2@gmail.com",
   "password": "123qweQWE!",
   "nick_name": "일반좁밥"
 }
@@ -74,7 +74,6 @@ Authorization: Bearer {{AccessToken}}
 
 ###
 # 메일 인증번호 전송
-# @name loginToken
 POST {{domain}}/auth/send-verification
 Content-Type: application/json
 
@@ -84,22 +83,10 @@ Content-Type: application/json
 
 ###
 # 메일 인증번호 검증
-# @name loginToken
 POST {{domain}}/auth/verify-email
 Content-Type: application/json
 
 {
   "email": "user@gmail.com",
   "code": "400053"
-}
-
-###
-# 토스 페이먼츠 결제 테스트
-POST {{domain}}/pay/success
-Content-Type: application/json
-
-{
-	"paymentKey": "y0E4Dv5qpMGjLJoQ1aVZXeMWz9mmnQ8w6KYe2RNgOWznZb7B",
-  "orderId": "4TITFDV0Qqs0xzmtqqtjF",
-  "amount": 100
 }
