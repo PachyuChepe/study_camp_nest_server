@@ -22,6 +22,8 @@ import { VerifyEmailDto } from '../auth/dto/verify-email.dto';
 import { LocalAuthGuard } from './guard/local-auth.guard';
 import { SpacesService } from 'src/spaces/spaces.service';
 import { UsersService } from '../users/users.service';
+import { PaymentService } from 'src/payment/payment.service';
+import { EmailDto } from './dto/email.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -30,12 +32,23 @@ export class AuthController {
     private redisService: RedisService,
     private spacesService: SpacesService,
     private userService: UsersService,
+    private paymentService: PaymentService,
   ) {}
 
   @Post('/login')
   @UseGuards(LocalAuthGuard)
   async login(@Request() req) {
     return this.authService.login(req.user);
+  }
+
+  @Post('/get-token')
+  async getTokenByEmail(@Body() emailDto: EmailDto) {
+    const user = await this.userService.findOne(emailDto.email);
+    if (!user) {
+      throw new UnauthorizedException('사용자를 찾을 수 없습니다.');
+    }
+    const accessToken = await this.authService.generateAccessToken(user);
+    return { access_token: accessToken };
   }
 
   @Post('/refresh')
@@ -85,6 +98,7 @@ export class AuthController {
   @Post('/logout')
   @UseGuards(AuthGuard('jwt'))
   async logout(@Request() req) {
+    await this.redisService.removeAccessToken(req.user.email);
     await this.redisService.removeRefreshToken(req.user.email);
     return { message: '로그아웃 성공' };
   }
@@ -110,15 +124,20 @@ export class AuthController {
   @UseGuards(AuthGuard('google'))
   async googleAuthRedirect(@Req() req, @Res() res) {
     const user = req.user;
-    const accessToken = this.authService.generateAccessToken(user);
+    const accessToken = await this.authService.generateAccessToken(user);
+    await this.authService.generateRefreshToken(user);
     const memberSpaces = await this.spacesService.findSpacesByMember(user.id);
     const memberSearch = await this.userService.findOne(user.email);
+    const memberCustomerKey = await this.paymentService.getPaymentByUserId(
+      user.id,
+    );
 
     // 사용자 식별자를 키로 사용하여 인증 데이터 저장
     await this.redisService.saveAuthData(user.id, {
       access_token: accessToken,
       member_spaces: memberSpaces,
       member_search: memberSearch,
+      member_customer_key: memberCustomerKey,
     });
 
     // 클라이언트에게 인증 완료 신호 전송 (예: JavaScript 함수 호출)

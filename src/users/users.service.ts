@@ -4,17 +4,23 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
+  forwardRef,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { PaymentService } from 'src/payment/payment.service';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @Inject(forwardRef(() => PaymentService))
+    private paymentService: PaymentService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -29,10 +35,17 @@ export class UsersService {
     const newUser = this.userRepository.create({
       ...createUserDto,
     });
+    const savedUser = await this.userRepository.save(newUser);
 
-    await this.userRepository.save(newUser);
+    // savedUser의 ID를 customerKey로 사용
+    const customerKey = `${uuidv4()}${savedUser.id}`;
 
-    return newUser;
+    // Payment 엔티티 생성
+    await this.paymentService.createPayment(savedUser.id, {
+      customer_key: customerKey,
+    });
+
+    return savedUser;
   }
 
   async findOne(email: string): Promise<User | undefined> {

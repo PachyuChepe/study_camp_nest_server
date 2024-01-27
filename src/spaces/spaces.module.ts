@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Space } from './entities/space.entity';
 import { SpaceMembersModule } from 'src/space-members/space-members.module';
 import { SpaceMember } from 'src/space-members/entities/space-member.entity';
+import { SpaceClass } from './entities/space-class.entity';
 
 // https://www.erdcloud.com/d/DXsDN9Jvr5qXuivwz
 // space 학습 공간 O
@@ -16,7 +17,10 @@ import { SpaceMember } from 'src/space-members/entities/space-member.entity';
 // lectureItems 강의 영상
 // lectureProgress 강의 진도율
 @Module({
-  imports: [TypeOrmModule.forFeature([Space, SpaceMember]), SpaceMembersModule],
+  imports: [
+    TypeOrmModule.forFeature([Space, SpaceMember, SpaceClass]),
+    SpaceMembersModule,
+  ],
   controllers: [SpacesController],
   providers: [SpacesService],
   exports: [SpacesService],

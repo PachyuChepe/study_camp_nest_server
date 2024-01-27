@@ -51,6 +51,7 @@ export class UsersController {
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
   async removeProfile(@Request() req) {
     await this.usersService.remove(req.user.id);
+    await this.redisService.removeAccessToken(req.user.email);
     await this.redisService.removeRefreshToken(req.user.email);
     return { message: '회원 탈퇴가 완료되었습니다.' };
   }

@@ -9,7 +9,7 @@ POST {{domain}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "test1@gmail.com",
+  "email": "user2@gmail.com",
   "password": "123qweQWE!"
 }
 
@@ -80,6 +80,22 @@ Content-Type: application/json
   "userId": 1,
   "spaceId": 1
 }
+
+###
+# 학습공간에서 멤버 정보 조회
+POST {{domain}}/space-members/info
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "spaceId": 2
+}
+
+###
+# 스페이스 클래스 전체 조회 (타입, 최대수용인원, 가격)
+GET {{domain}}/spaces/classes
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
 
 ###
 # 그룹을 생성합니다.

@@ -14,9 +14,9 @@ import { JwtStrategy } from './strategy/jwt.strategy';
 import { LocalStrategy } from './strategy/local.strategy';
 import { GoogleStrategy } from './strategy/google.strategy';
 import { EmailService } from './nodemailer/auth.nodemailer';
-import { PayModule } from './pay/pay.module';
 import { SpacesModule } from 'src/spaces/spaces.module';
 import { SseModule } from 'src/sse/sse.module';
+import { PaymentModule } from 'src/payment/payment.module';
 
 @Module({
   imports: [
@@ -25,15 +25,15 @@ import { SseModule } from 'src/sse/sse.module';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET_KEY'),
-        signOptions: { expiresIn: '30m' },
+        signOptions: { expiresIn: '1d' },
       }),
       inject: [ConfigService],
     }),
     UsersModule,
     RedisModule,
-    PayModule,
     SpacesModule,
     SseModule,
+    PaymentModule,
   ],
   providers: [
     AuthService,
