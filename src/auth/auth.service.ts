@@ -1,5 +1,9 @@
 // src/auth/auth.service.ts
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { RedisService } from '../redis/redis.service';
 import { UsersService } from '../users/users.service';
@@ -53,6 +57,11 @@ export class AuthService {
 
   async sendVerificationCode(email: string): Promise<void> {
     // const code = Math.random().toString(36).substring(2, 8);
+    const existingUser = await this.userService.findByEmailGoogle(email);
+    if (existingUser) {
+      throw new ConflictException('이미 가입된 이메일입니다.');
+    }
+
     const code = Math.floor(Math.random() * (999999 - 100000)) + 100000;
     await this.redisService.setVerificationCode(email, code.toString());
     await this.emailService.sendVerificationEmail(email, code.toString());
