@@ -15,6 +15,7 @@ import { SpaceMembersService } from 'src/space-members/space-members.service';
 import { SpaceMemberRole } from 'src/space-members/types/space-member-role.type';
 import { SpaceMember } from '../space-members/entities/space-member.entity';
 import { SpaceClass } from './entities/space-class.entity';
+import { RedisService } from 'src/redis/redis.service';
 
 @Injectable()
 export class SpacesService {
@@ -27,6 +28,8 @@ export class SpacesService {
 
     @InjectRepository(SpaceClass) // SpaceClass 리포지토리 추가
     private spaceClassRepository: Repository<SpaceClass>,
+
+    private redisService: RedisService,
   ) {}
 
   // 구글 로그인 이후 socket연결하면 검증된 유저다.
@@ -190,5 +193,53 @@ export class SpacesService {
     } catch (error) {
       throw new NotFoundException('스페이스를 찾을 수 없습니다.');
     }
+  }
+
+  // 초대 코드 생성
+  async createInvitngCode(spaceId: number) {
+    const numbers = '0123456789';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    let result = '';
+
+    for (let i = 0; i < 3; i++) {
+      result += numbers.charAt(Math.floor(Math.random() * numbers.length));
+    }
+
+    for (let i = 3; i < 6; i++) {
+      result += characters.charAt(
+        Math.floor(Math.random() * characters.length),
+      );
+    }
+
+    result = result
+      .split('')
+      .sort(() => {
+        return 0.5 - Math.random();
+      })
+      .join('');
+
+    await this.redisService.saveInvitingCode(spaceId, result);
+    return result;
+  }
+
+  // 초대 코드 검증
+  async checkInvitingCode(userId: number, code: string) {
+    const result = await this.redisService.getInvitingCode(code);
+
+    // 해당 스페이스의 멤버인지 확인
+    const checkUserInSpace = await this.spacesRepository.findOne({
+      where: { id: +result, user_id: userId },
+    });
+    if (checkUserInSpace) {
+      throw new BadRequestException('이미 해당 스페이스의 멤버 입니다.');
+    }
+
+    // 스페이스 멤버 등록
+    const signUpSpaceMember = await this.spaceMemberRepository.save({
+      user_id: userId,
+      space_id: +result,
+    });
+
+    return signUpSpaceMember;
   }
 }

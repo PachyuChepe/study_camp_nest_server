@@ -9,8 +9,8 @@ POST {{domain}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "wlals7565@naver.com",
-  "password": "123qweQWE!"
+  "email": "jgw987@gmail.com",
+  "password": "1234"
 }
 
 ###
@@ -283,4 +283,20 @@ Content-Type: application/json
 {
   "lectureProgressId": 1,
   "lectureItemOrder": 3
+}
+
+###
+# 초대 코드 생성
+GET {{domain}}/spaces/invitation/1
+Authorization: Bearer {{AccessToken}}
+
+
+###
+# 초대 코드 검증
+POST  {{domain}}/spaces/invitation/check
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "code": "M6V25A"
 }

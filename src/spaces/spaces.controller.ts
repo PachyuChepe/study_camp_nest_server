@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   Request,
   UseGuards,
+  Param,
 } from '@nestjs/common';
 import { SpacesService } from './spaces.service';
 import { CreateSpaceDto } from './dto/create-space.dto';
@@ -72,9 +73,20 @@ export class SpacesController {
 
   @Post('/check-user')
   async isUserSpace(@Request() req, @Body('spaceId') spaceId: string) {
-    console.log('controller ===> ', spaceId);
     const data = await this.spacesService.isUserSpace(req.user.id, +spaceId);
-    console.log('컨트롤러 ----> ', data.space, data.isUserInSpace);
     return data;
+  }
+
+  // 초대 코드 생성
+  @Get('/invitation/:spaceId')
+  async createInvitngCode(@Param('spaceId') spaceId: string) {
+    const data = await this.spacesService.createInvitngCode(+spaceId);
+    return { code: data };
+  }
+
+  // 초대 코드 검증
+  @Post('/invitation/check')
+  async checkInvitingCode(@Body('code') code: string, @Request() req) {
+    return await this.spacesService.checkInvitingCode(req.user.id, code);
   }
 }
