@@ -20,7 +20,10 @@ export class LecturesService {
   // public 영역
   async findAllLectureBySpaceId(spaceId: number) {
     try {
-      return await this.lectureRepository.findBy({ space_id: spaceId });
+      return await this.lectureRepository.find({
+        where: { space_id: spaceId },
+        relations: ['lecture_items'],
+      });
     } catch (error) {
       throw new InternalServerErrorException('서버 오류 발생');
     }
@@ -33,9 +36,13 @@ export class LecturesService {
         title: createLectureDto.title,
         count: 0,
       });
-      await this.lectureRepository.save(lecture);
+      const result = await this.lectureRepository.save(lecture);
       await this.mailsController.create(lecture.space_id, lecture.title);
-      return { code: 200, message: '성공적으로 해당 강의를 등록하였습니다.' };
+      return {
+        code: 200,
+        message: '성공적으로 해당 강의를 등록하였습니다.',
+        lectureId: result.id,
+      };
     } catch (error) {
       throw new InternalServerErrorException('서버 오류 발생');
     }
