@@ -17,20 +17,17 @@ import { Lecture } from 'src/lectures/entities/lecture.entity';
 import { Alarm } from 'src/alarms/entities/alarm.entity';
 import { User } from 'src/users/entities/user.entity';
 
-// ERD물어봐야 함.
 @Entity('spaces')
 export class Space {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // TODO: 둘다 1:1 이라고?? 다시 물어봐야지
   @ManyToOne(() => User, (user) => user.space)
   @JoinColumn({ name: 'user_id' })
   user: User;
   @Column({ type: 'int', nullable: false })
   user_id: number;
 
-  // 여기도 문제 있었음 코드 실행시
   @ManyToOne(() => SpaceClass, (spaceClass) => spaceClass.space)
   @JoinColumn({ name: 'class_id' })
   space_class: SpaceClass;

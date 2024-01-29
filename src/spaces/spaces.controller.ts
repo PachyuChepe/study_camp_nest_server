@@ -79,8 +79,11 @@ export class SpacesController {
 
   // 초대 코드 생성
   @Get('/invitation/:spaceId')
-  async createInvitngCode(@Param('spaceId') spaceId: string) {
-    const data = await this.spacesService.createInvitngCode(+spaceId);
+  async createInvitngCode(@Param('spaceId') spaceId: string, @Request() req) {
+    const data = await this.spacesService.createInvitngCode(
+      +spaceId,
+      req.user.id,
+    );
     return { code: data };
   }
 

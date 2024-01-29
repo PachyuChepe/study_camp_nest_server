@@ -78,8 +78,8 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "userId": 2,
-  "spaceId": 2
+  "userId": 12,
+  "spaceId":8
 }
 
 ###
@@ -94,7 +94,7 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "userId": 2,
+  "userId": 1,
   "spaceId": 1
 }
 
@@ -287,7 +287,7 @@ Content-Type: application/json
 
 ###
 # 초대 코드 생성
-GET {{domain}}/spaces/invitation/1
+GET {{domain}}/spaces/invitation/2
 Authorization: Bearer {{AccessToken}}
 
 

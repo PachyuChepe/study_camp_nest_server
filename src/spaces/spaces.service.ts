@@ -4,6 +4,7 @@ import {
   Injectable,
   InternalServerErrorException,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 // import { CreateSpaceDto } from './dto/create-space.dto';
 // import { UpdateSpaceDto } from './dto/update-space.dto'; 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
@@ -196,7 +197,14 @@ export class SpacesService {
   }
 
   // 초대 코드 생성
-  async createInvitngCode(spaceId: number) {
+  async createInvitngCode(spaceId: number, userId: number) {
+    const role = await this.spaceMemberRepository.findOne({
+      where: { space_id: spaceId, user_id: userId },
+    });
+    if (role.role !== 0) {
+      throw new UnauthorizedException('권한이 없습니다.');
+    }
+
     const numbers = '0123456789';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
     let result = '';
