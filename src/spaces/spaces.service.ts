@@ -198,15 +198,17 @@ export class SpacesService {
 
   // 초대 코드 생성
   async createInvitngCode(spaceId: number, userId: number) {
-    const role = await this.spaceMemberRepository.findOne({
+    const isSpaceMember = await this.spaceMemberRepository.findOne({
       where: { space_id: spaceId, user_id: userId },
     });
-    if (role.role !== 0) {
+
+    console.log('isSpaceMember =====>', isSpaceMember.role);
+    if (isSpaceMember.role !== 0) {
       throw new UnauthorizedException('권한이 없습니다.');
     }
 
     const numbers = '0123456789';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let result = '';
 
     for (let i = 0; i < 3; i++) {
