@@ -43,6 +43,8 @@ export class PaymentController {
   successPage(
     @Query('classId') classId: string,
     @Query('spaceName') spaceName: string,
+    @Query('spaceContent') spaceContent: string,
+    @Query('spacePassword') spacePassword: string,
     @Query('email') email: string,
     @Res() res: Response,
   ): void {
@@ -57,13 +59,16 @@ export class PaymentController {
         // 에러 처리
         return res.status(500).send('Error loading the page');
       }
-
+      console.log('인풋 들어왔니?', spaceContent);
+      console.log('인풋 들어왔니?', spacePassword);
       // HTML 내에서 환경변수 값을 삽입
       const modifiedHtml = data.replace(
         '/* ENV_VARIABLES */',
         `var ENV_VARS = {
         classId: "${classId}",
         spaceName: "${spaceName}",
+        spaceContent: "${spaceContent}",
+        spacePassword: "${spacePassword}",
         email: "${email}",
         clientUrl: "${clientUrl}",
         serverUrl: "${serverUrl}",
@@ -84,15 +89,28 @@ export class PaymentController {
       customerKey: string;
       classId: string;
       spaceName: string;
+      spaceContent: string;
+      spacePassword: string;
       email: string;
     },
   ) {
-    const { authKey, customerKey, classId, spaceName, email } = body;
+    const {
+      authKey,
+      customerKey,
+      classId,
+      spaceName,
+      spaceContent,
+      spacePassword,
+      email,
+    } = body;
+    console.log('controller 바디값 ====>', body);
     const billingKey = await this.paymentService.createBillingKey(
       authKey,
       customerKey,
       classId,
       spaceName,
+      spaceContent,
+      spacePassword,
       email,
     );
     return { billingKey };

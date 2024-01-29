@@ -10,7 +10,11 @@ Content-Type: application/json
 
 {
   "email": "wlals7565@naver.com",
+<<<<<<< HEAD
   "password": "test123"
+=======
+  "password": "123qweQWE!"
+>>>>>>> a48506e523860bd5e6b1decc65edb41c0676d521
 }
 
 ###
@@ -25,8 +29,15 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
+<<<<<<< HEAD
   "name": "testfor123",
   "classId": 1
+=======
+  "name": "wook3",
+  "classId": 1,
+  "content": "내일배움캠프",
+  "password": "1234"
+>>>>>>> a48506e523860bd5e6b1decc65edb41c0676d521
 }
 
 ###
@@ -42,12 +53,27 @@ Content-Type: application/json
 }
 
 ###
+# 모든 학습공간 조회하기
+GET {{domain}}/spaces/all
+Authorization: Bearer {{AccessToken}}
+
+###
 # 내 학습공간 전부 조회하기 (스페이스를 생성한 유저는 해당 스페이스의 권한이 role:0으로 출력, 초대받은 유저는 role:3으로 출력되게 변경)
 # 테스트 함.
 # 이상있으면 이정훈 바로 불러주세요.
 GET {{domain}}/spaces
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
+
+###
+# 해당 유저가 스페이스에 속하는지 확인하기
+POST  {{domain}}/spaces/check-user
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "spaceId": 19
+}
 
 ###
 # 학습공간에 유저 초대하기

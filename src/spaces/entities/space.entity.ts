@@ -38,6 +38,12 @@ export class Space {
   @Column({ type: 'varchar' })
   name: string;
 
+  @Column({ type: 'varchar', nullable: true })
+  password: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  content: string;
+
   @OneToMany(() => SpaceMember, (spaceMember) => spaceMember.space, {
     onDelete: 'CASCADE',
   })

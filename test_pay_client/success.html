@@ -1,92 +1,97 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>결제 성공</title>
-    <style>
-      body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        flex-direction: column;
-        font-family: Arial, sans-serif;
-      }
 
-      .message {
-        margin-bottom: 20px;
-        font-size: 24px;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>결제 성공</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      font-family: Arial, sans-serif;
+    }
 
-      .button {
-        padding: 10px 20px;
-        background-color: #4caf50;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
+    .message {
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
 
-      .button:hover {
-        background-color: #45a049;
-      }
-    </style>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
-      /* ENV_VARIABLES */
-    </script>
-  </head>
-  <body>
-    <div class="message">결제가 성공적으로 완료되었습니다!</div>
-    <button class="button" id="myButton">홈으로 돌아가기</button>
-  </body>
+    .button {
+      padding: 10px 20px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #45a049;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
-    let accessToken;
+    /* ENV_VARIABLES */
+  </script>
+</head>
 
-    document.getElementById('myButton').addEventListener('click', function () {
-      window.location.href = ENV_VARS.clientUrl;
-    });
+<body>
+  <div class="message">결제가 성공적으로 완료되었습니다!</div>
+  <button class="button" id="myButton">홈으로 돌아가기</button>
+</body>
+<script>
+  let accessToken;
 
-    window.onload = async function () {
-      try {
-        // 첫 번째 요청에서 토큰 가져오기
-        const tokenResponse = await axios.post(
-          `${ENV_VARS.serverUrl}/auth/get-token`,
+  document.getElementById('myButton').addEventListener('click', function () {
+    window.location.href = ENV_VARS.clientUrl;
+  });
+
+  window.onload = async function () {
+    try {
+      // 첫 번째 요청에서 토큰 가져오기
+      const tokenResponse = await axios.post(
+        `${ENV_VARS.serverUrl}/auth/get-token`,
+        {
+          email: ENV_VARS.email,
+        },
+      );
+      accessToken = tokenResponse.data.access_token;
+      console.log('Received Access Token:', accessToken);
+
+      // 두 번째 요청에 토큰 사용
+      const urlParams = new URLSearchParams(window.location.search);
+      const authKey = urlParams.get('authKey');
+      const customerKey = urlParams.get('customerKey');
+
+      if (authKey && customerKey) {
+        await axios.post(
+          `${ENV_VARS.serverUrl}/payment/create-billing-key`,
           {
+            authKey: authKey,
+            customerKey: customerKey,
+            classId: ENV_VARS.classId,
+            spaceName: ENV_VARS.spaceName,
+            spaceContent: ENV_VARS.spaceContent,
+            spacePassword: ENV_VARS.spacePassword,
             email: ENV_VARS.email,
           },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${accessToken}`,
+            },
+          },
         );
-        accessToken = tokenResponse.data.access_token;
-        console.log('Received Access Token:', accessToken);
-
-        // 두 번째 요청에 토큰 사용
-        const urlParams = new URLSearchParams(window.location.search);
-        const authKey = urlParams.get('authKey');
-        const customerKey = urlParams.get('customerKey');
-
-        if (authKey && customerKey) {
-          await axios.post(
-            `${ENV_VARS.serverUrl}/payment/create-billing-key`,
-            {
-              authKey: authKey,
-              customerKey: customerKey,
-              classId: ENV_VARS.classId,
-              spaceName: ENV_VARS.spaceName,
-              email: ENV_VARS.email,
-            },
-            {
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`,
-              },
-            },
-          );
-          console.log('Billing key created');
-        }
-      } catch (error) {
-        console.error('Error:', error);
+        console.log('Billing key created');
       }
-    };
-  </script>
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+</script>
+
 </html>

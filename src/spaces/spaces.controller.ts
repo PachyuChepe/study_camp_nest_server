@@ -22,6 +22,13 @@ import { AuthGuard } from '@nestjs/passport';
 export class SpacesController {
   constructor(private readonly spacesService: SpacesService) {}
 
+  @Get('/all')
+  async findAllSpaces() {
+    const data = await this.spacesService.findAllSpaces();
+    console.log('잘 나와주세요 =====>', data);
+    return data;
+  }
+
   // 학습공간을 만듭니다.
   @Post()
   @UsePipes(ValidationPipe)
@@ -32,6 +39,8 @@ export class SpacesController {
     return await this.spacesService.createSpace(
       createSpaceDto.name,
       createSpaceDto.classId,
+      createSpaceDto.content,
+      createSpaceDto.password,
       userId,
     );
   }
@@ -56,9 +65,16 @@ export class SpacesController {
   async findMemberSpaces(@Request() req) {
     return await this.spacesService.findSpacesByMember(req.user.id);
   }
-
   @Get('/classes')
   async getAllSpaceClasses() {
     return await this.spacesService.findAllSpaceClasses();
+  }
+
+  @Post('/check-user')
+  async isUserSpace(@Request() req, @Body('spaceId') spaceId: string) {
+    console.log('controller ===> ', spaceId);
+    const data = await this.spacesService.isUserSpace(req.user.id, +spaceId);
+    console.log('컨트롤러 ----> ', data.space, data.isUserInSpace);
+    return data;
   }
 }
