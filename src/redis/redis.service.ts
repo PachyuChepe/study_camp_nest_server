@@ -89,4 +89,16 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
   async removeAuthData(userId: string): Promise<void> {
     await this.client.del(`auth_data:${userId}`);
   }
+
+  // 초대 코드 저장
+  async saveInvitingCode(spaceId: number, code: string): Promise<void> {
+    await this.client.set(`inviting_code:${code}`, spaceId, {
+      EX: 60 * 30,
+    });
+  }
+
+  // 초대 코드 조회
+  async getInvitingCode(code: string): Promise<string | null> {
+    return await this.client.get(`inviting_code:${code}`);
+  }
 }
