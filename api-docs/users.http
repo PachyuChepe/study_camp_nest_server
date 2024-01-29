@@ -21,8 +21,8 @@ POST {{domain}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "test1@gmail.com",
-  "password": "123qweQWE!"
+  "email": "wlals7565@naver.com",
+  "password": "test123"
 }
 
 ###

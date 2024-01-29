@@ -9,8 +9,8 @@ POST {{domain}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "test123@gmail.com",
-  "password": "123qweQWE!"
+  "email": "wlals7565@naver.com",
+  "password": "test123"
 }
 
 ###
@@ -61,8 +61,8 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "userId": 9,
-  "spaceId":7
+  "userId": 12,
+  "spaceId":8
 }
 
 ###
