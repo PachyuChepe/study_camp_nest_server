@@ -10,11 +10,7 @@ Content-Type: application/json
 
 {
   "email": "wlals7565@naver.com",
-<<<<<<< HEAD
-  "password": "test123"
-=======
   "password": "123qweQWE!"
->>>>>>> a48506e523860bd5e6b1decc65edb41c0676d521
 }
 
 ###
@@ -29,15 +25,10 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-<<<<<<< HEAD
-  "name": "testfor123",
-  "classId": 1
-=======
   "name": "wook3",
   "classId": 1,
   "content": "내일배움캠프",
   "password": "1234"
->>>>>>> a48506e523860bd5e6b1decc65edb41c0676d521
 }
 
 ###
