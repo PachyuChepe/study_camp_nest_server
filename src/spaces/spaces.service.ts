@@ -39,7 +39,13 @@ export class SpacesService {
   // 보안 결제한 유저냐 진짜 있는 유저냐 강제로 개발자 도구 열어서 보내는건 막아야지
   // 코드를 더 짜봐야 안다. 지금 이 시점에서 확실하게 말해줄 수 없다.
   // 일단 짜고 나서 생각해라.
-  async createSpace(name: string, classId: number, userId: number) {
+  async createSpace(
+    name: string,
+    classId: number,
+    content: string,
+    password: string,
+    userId: number,
+  ) {
     try {
       const exSpace: Space = await this.findSpaceByName(name);
       this.IsSpaceExisting(exSpace);
@@ -47,8 +53,10 @@ export class SpacesService {
       // 유저가 실제로 존재하는지 클래스가 실제로 존재하는지를 여기서 검증해야 하나?
       let newSpace = this.spacesRepository.create({
         name: name,
-        user_id: userId,
         class_id: classId,
+        content: content,
+        password: password,
+        user_id: userId,
       });
       // 오류처리 어떻게 하냐 서버 멈추는데
       // 왜 유저 1 클래스 1 유저 2 클래스 2는 되는데 유저 1 클래스 2 유저 2 클래스 1은 안되냐
@@ -93,6 +101,17 @@ export class SpacesService {
     }
   }
 
+  async findAllSpaces() {
+    try {
+      const spaces = await this.spaceClassRepository.find({
+        relations: ['space'],
+      });
+      return spaces;
+    } catch (error) {
+      throw new InternalServerErrorException('서버 오류 발생');
+    }
+  }
+
   // 이건 단일로 써도 되는건가?
   // async findSpacesByUser(user: any) {
   //   let results = await this.spacesRepository.findBy({ user_id: user.id });
@@ -104,13 +123,14 @@ export class SpacesService {
     try {
       const memberSpaces = await this.spaceMemberRepository.find({
         where: { user_id: userId },
-        relations: ['space'],
+        relations: ['space', 'space.space_class'],
       });
 
       // 각 스페이스와 해당 스페이스에서의 사용자 역할을 포함한 객체 반환
       return memberSpaces.map((member) => ({
         space: member.space,
         role: member.role,
+        capacity: member.space.space_class.capacity,
       }));
     } catch (error) {
       throw new InternalServerErrorException('서버 오류 발생');
@@ -151,6 +171,24 @@ export class SpacesService {
       return await this.spaceClassRepository.find();
     } catch (error) {
       throw new InternalServerErrorException('서버 오류 발생');
+    }
+  }
+
+  async isUserSpace(userId: number, spaceId: number) {
+    try {
+      console.log('spaceId =>', spaceId);
+      const space = await this.spacesRepository.findOne({
+        where: { id: spaceId },
+      });
+
+      const isUserInSpace = await this.spaceMemberRepository.findOne({
+        where: { space_id: spaceId, user_id: userId },
+      });
+      console.log('서비스 ===>', space.password);
+
+      return { space: space.password, isUserInSpace: isUserInSpace || null };
+    } catch (error) {
+      throw new NotFoundException('스페이스를 찾을 수 없습니다.');
     }
   }
 }

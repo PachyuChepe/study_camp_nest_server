@@ -8,4 +8,12 @@ export class CreateSpaceDto {
   @IsNotEmpty()
   @IsNumber()
   readonly classId: number;
+
+  @IsNotEmpty()
+  @IsString()
+  readonly password: string;
+
+  @IsNotEmpty()
+  @IsString()
+  readonly content: string;
 }
