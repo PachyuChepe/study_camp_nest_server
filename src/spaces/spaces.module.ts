@@ -6,6 +6,7 @@ import { Space } from './entities/space.entity';
 import { SpaceMembersModule } from 'src/space-members/space-members.module';
 import { SpaceMember } from 'src/space-members/entities/space-member.entity';
 import { SpaceClass } from './entities/space-class.entity';
+import { RedisModule } from 'src/redis/redis.module';
 
 // https://www.erdcloud.com/d/DXsDN9Jvr5qXuivwz
 // space 학습 공간 O
@@ -20,6 +21,7 @@ import { SpaceClass } from './entities/space-class.entity';
   imports: [
     TypeOrmModule.forFeature([Space, SpaceMember, SpaceClass]),
     SpaceMembersModule,
+    RedisModule,
   ],
   controllers: [SpacesController],
   providers: [SpacesService],
