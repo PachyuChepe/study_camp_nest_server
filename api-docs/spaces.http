@@ -9,7 +9,7 @@ POST {{domain}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "user2@gmail.com",
+  "email": "wlals7565@naver.com",
   "password": "123qweQWE!"
 }
 
@@ -25,8 +25,10 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "name": "testfor1",
-  "classId": 1
+  "name": "wook3",
+  "classId": 1,
+  "content": "내일배움캠프",
+  "password": "1234"
 }
 
 ###
@@ -42,12 +44,27 @@ Content-Type: application/json
 }
 
 ###
+# 모든 학습공간 조회하기
+GET {{domain}}/spaces/all
+Authorization: Bearer {{AccessToken}}
+
+###
 # 내 학습공간 전부 조회하기 (스페이스를 생성한 유저는 해당 스페이스의 권한이 role:0으로 출력, 초대받은 유저는 role:3으로 출력되게 변경)
 # 테스트 함.
 # 이상있으면 이정훈 바로 불러주세요.
 GET {{domain}}/spaces
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
+
+###
+# 해당 유저가 스페이스에 속하는지 확인하기
+POST  {{domain}}/spaces/check-user
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "spaceId": 19
+}
 
 ###
 # 학습공간에 유저 초대하기
@@ -61,8 +78,8 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "userId": 2,
-  "spaceId": 2
+  "userId": 12,
+  "spaceId":8
 }
 
 ###
@@ -77,18 +94,18 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "userId": 2,
+  "userId": 1,
   "spaceId": 1
 }
 
 ###
-# 학습공간에서 멤버 정보 조회
+# 학습공간에서 특정 멤버 정보 조회
 POST {{domain}}/space-members/info
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "spaceId": 2
+  "spaceId": 1
 }
 
 ###
@@ -267,3 +284,37 @@ Content-Type: application/json
   "lectureProgressId": 1,
   "lectureItemOrder": 3
 }
+
+###
+# 초대 코드 생성
+GET {{domain}}/spaces/invitation/2
+Authorization: Bearer {{AccessToken}}
+
+
+###
+# 초대 코드 검증
+POST  {{domain}}/spaces/invitation/check
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "code": "M6V25A"
+}
+
+###
+# 스페이스 멤버의 역할 변경
+PATCH {{domain}}/space-members/change-role
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "spaceId": 1,
+  "targetUserId": 4,
+  "newRole": 3
+}
+
+###
+# 학습공간에서 전체 멤버 정보 조회
+GET {{domain}}/space-members/1
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json

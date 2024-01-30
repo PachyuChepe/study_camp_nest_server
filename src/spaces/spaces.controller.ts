@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   Request,
   UseGuards,
+  Param,
 } from '@nestjs/common';
 import { SpacesService } from './spaces.service';
 import { CreateSpaceDto } from './dto/create-space.dto';
@@ -22,6 +23,13 @@ import { AuthGuard } from '@nestjs/passport';
 export class SpacesController {
   constructor(private readonly spacesService: SpacesService) {}
 
+  @Get('/all')
+  async findAllSpaces() {
+    const data = await this.spacesService.findAllSpaces();
+    console.log('잘 나와주세요 =====>', data);
+    return data;
+  }
+
   // 학습공간을 만듭니다.
   @Post()
   @UsePipes(ValidationPipe)
@@ -32,6 +40,8 @@ export class SpacesController {
     return await this.spacesService.createSpace(
       createSpaceDto.name,
       createSpaceDto.classId,
+      createSpaceDto.content,
+      createSpaceDto.password,
       userId,
     );
   }
@@ -56,9 +66,30 @@ export class SpacesController {
   async findMemberSpaces(@Request() req) {
     return await this.spacesService.findSpacesByMember(req.user.id);
   }
-
   @Get('/classes')
   async getAllSpaceClasses() {
     return await this.spacesService.findAllSpaceClasses();
+  }
+
+  @Post('/check-user')
+  async isUserSpace(@Request() req, @Body('spaceId') spaceId: string) {
+    const data = await this.spacesService.isUserSpace(req.user.id, +spaceId);
+    return data;
+  }
+
+  // 초대 코드 생성
+  @Get('/invitation/:spaceId')
+  async createInvitngCode(@Param('spaceId') spaceId: string, @Request() req) {
+    const data = await this.spacesService.createInvitngCode(
+      +spaceId,
+      req.user.id,
+    );
+    return { code: data };
+  }
+
+  // 초대 코드 검증
+  @Post('/invitation/check')
+  async checkInvitingCode(@Body('code') code: string, @Request() req) {
+    return await this.spacesService.checkInvitingCode(req.user.id, code);
   }
 }

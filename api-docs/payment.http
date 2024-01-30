@@ -9,8 +9,8 @@ POST {{domain}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "user2@gmail.com",
-  "password": "123qweQWE!"
+  "email": "test@gmail.com",
+  "password": "1234"
 }
 
 ###
@@ -20,6 +20,6 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "billing_key": "user1@gmail.com",
-  "customer_key": "123qweQWE!"
+  "billing_key": "test@gmail.com",
+  "customer_key": "1234"
 }

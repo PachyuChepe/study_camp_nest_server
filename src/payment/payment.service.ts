@@ -44,6 +44,8 @@ export class PaymentService {
     customerKey: string,
     classId: string,
     spaceName: string,
+    content: string,
+    password: string,
     email: string,
   ): Promise<string> {
     const secretKey = this.configService.get('TOSS_SECRET_KEY');
@@ -72,6 +74,8 @@ export class PaymentService {
         customerKey,
         classId,
         spaceName,
+        content,
+        password,
         email,
       );
 
@@ -108,6 +112,8 @@ export class PaymentService {
     customerKey: string,
     classId: string,
     spaceName: string,
+    spaceContent: string,
+    spacePassword: string,
     email: string,
   ): Promise<void> {
     // 결제 API 호출
@@ -145,6 +151,8 @@ export class PaymentService {
       await this.spacesService.createSpace(
         spaceName,
         parseInt(classId),
+        spaceContent,
+        spacePassword,
         user.id,
       );
     } catch (error) {
