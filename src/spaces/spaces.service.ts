@@ -107,8 +107,8 @@ export class SpacesService {
 
   async findAllSpaces() {
     try {
-      const spaces = await this.spaceClassRepository.find({
-        relations: ['space'],
+      const spaces = await this.spacesRepository.find({
+        relations: ['space_class'],
       });
       return spaces;
     } catch (error) {
@@ -132,9 +132,9 @@ export class SpacesService {
 
       // 각 스페이스와 해당 스페이스에서의 사용자 역할을 포함한 객체 반환
       return memberSpaces.map((member) => ({
-        space: member.space,
+        ...member.space,
         role: member.role,
-        capacity: member.space.space_class.capacity,
+        //capacity: member.space.space_class.capacity,
       }));
     } catch (error) {
       throw new InternalServerErrorException('서버 오류 발생');
