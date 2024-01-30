@@ -13,7 +13,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PaymentService } from 'src/payment/payment.service';
 import { v4 as uuidv4 } from 'uuid';
-import { randomInt } from 'crypto';
 
 @Injectable()
 export class UsersService {
@@ -37,13 +36,13 @@ export class UsersService {
       ...createUserDto,
     });
 
-    // 난수로 속성 설정
-    newUser.skin = randomInt(0, 13); // 0~12
-    newUser.hair = randomInt(0, 10); // 0~9
-    newUser.hair_color = randomInt(0, 12); // 0~11
-    newUser.clothes = randomInt(0, 7); // 0~6
-    newUser.clothes_color = randomInt(0, 12); // 0~11
-    newUser.face = randomInt(0, 65); // 0~64
+    // 난수 생성 코드 수정
+    newUser.skin = Math.floor(Math.random() * 13); // 0~12
+    newUser.hair = Math.floor(Math.random() * 10); // 0~9
+    newUser.hair_color = Math.floor(Math.random() * 12); // 0~11
+    newUser.clothes = Math.floor(Math.random() * 7); // 0~6
+    newUser.clothes_color = Math.floor(Math.random() * 12); // 0~11
+    newUser.face = Math.floor(Math.random() * 65); //  0~64
 
     const savedUser = await this.userRepository.save(newUser);
 
