@@ -13,6 +13,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PaymentService } from 'src/payment/payment.service';
 import { v4 as uuidv4 } from 'uuid';
+import { randomInt } from 'crypto';
 
 @Injectable()
 export class UsersService {
@@ -35,6 +36,15 @@ export class UsersService {
     const newUser = this.userRepository.create({
       ...createUserDto,
     });
+
+    // 난수로 속성 설정
+    newUser.skin = randomInt(0, 13); // 0~12
+    newUser.hair = randomInt(0, 10); // 0~9
+    newUser.hair_color = randomInt(0, 12); // 0~11
+    newUser.clothes = randomInt(0, 7); // 0~6
+    newUser.clothes_color = randomInt(0, 12); // 0~11
+    newUser.face = randomInt(0, 65); // 0~64
+
     const savedUser = await this.userRepository.save(newUser);
 
     // savedUser의 ID를 customerKey로 사용
@@ -106,6 +116,48 @@ export class UsersService {
     const user = await this.userRepository.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException(`ID가 ${id}인 사용자를 찾을 수 없습니다.`);
+    }
+
+    if (
+      updateUserDto.skin !== undefined &&
+      (updateUserDto.skin < 0 || updateUserDto.skin > 12)
+    ) {
+      throw new BadRequestException('skin 값이 범위를 벗어났습니다.');
+    }
+
+    if (
+      updateUserDto.hair !== undefined &&
+      (updateUserDto.hair < 0 || updateUserDto.hair > 9)
+    ) {
+      throw new BadRequestException('hair 값이 범위를 벗어났습니다.');
+    }
+
+    if (
+      updateUserDto.face !== undefined &&
+      (updateUserDto.face < 0 || updateUserDto.face > 64)
+    ) {
+      throw new BadRequestException('face 값이 범위를 벗어났습니다.');
+    }
+
+    if (
+      updateUserDto.clothes !== undefined &&
+      (updateUserDto.clothes < 0 || updateUserDto.clothes > 6)
+    ) {
+      throw new BadRequestException('clothes 값이 범위를 벗어났습니다.');
+    }
+
+    if (
+      updateUserDto.hair_color !== undefined &&
+      (updateUserDto.hair_color < 0 || updateUserDto.hair_color > 11)
+    ) {
+      throw new BadRequestException('hair_color 값이 범위를 벗어났습니다.');
+    }
+
+    if (
+      updateUserDto.clothes_color !== undefined &&
+      (updateUserDto.clothes_color < 0 || updateUserDto.clothes_color > 11)
+    ) {
+      throw new BadRequestException('clothes_color 값이 범위를 벗어났습니다.');
     }
 
     await this.userRepository.save({ ...user, ...updateUserDto });
