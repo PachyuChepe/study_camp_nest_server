@@ -99,13 +99,13 @@ Content-Type: application/json
 }
 
 ###
-# 학습공간에서 멤버 정보 조회
+# 학습공간에서 특정 멤버 정보 조회
 POST {{domain}}/space-members/info
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "spaceId": 2
+  "spaceId": 1
 }
 
 ###
@@ -300,3 +300,21 @@ Content-Type: application/json
 {
   "code": "M6V25A"
 }
+
+###
+# 스페이스 멤버의 역할 변경
+PATCH {{domain}}/space-members/change-role
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "spaceId": 1,
+  "targetUserId": 4,
+  "newRole": 3
+}
+
+###
+# 학습공간에서 전체 멤버 정보 조회
+GET {{domain}}/space-members/1
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
