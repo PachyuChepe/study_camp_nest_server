@@ -71,6 +71,18 @@ export class SpacesController {
     return await this.spacesService.findAllSpaceClasses();
   }
 
+  @Get('/:spaceId')
+  async getAllMemberBySpaceId(@Param('spaceId') spaceId: number) {
+    const result: any = await this.spacesService.getAllMemberBySpaceId(spaceId);
+    result.spaceMembers.forEach((spaceMember) => {
+      spaceMember.user = {
+        id: spaceMember.user.id,
+        nick_name: spaceMember.user.nick_name,
+      };
+    });
+    return result;
+  }
+
   @Post('/check-user')
   async isUserSpace(@Request() req, @Body('spaceId') spaceId: string) {
     const data = await this.spacesService.isUserSpace(req.user.id, +spaceId);

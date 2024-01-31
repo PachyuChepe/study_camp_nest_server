@@ -141,6 +141,18 @@ export class SpacesService {
     }
   }
 
+  async getAllMemberBySpaceId(spaceId: number) {
+    try {
+      const result = await this.spacesRepository.findOne({
+        where: { id: spaceId },
+        relations: ['spaceMembers', 'spaceMembers.user'],
+      });
+      return result;
+    } catch (error) {
+      throw new InternalServerErrorException('서버 오류 발생');
+    }
+  }
+
   // Private영역
   // #DB func
   private async findSpaceByName(name: string): Promise<Space> {
