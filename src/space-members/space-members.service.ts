@@ -4,12 +4,13 @@ import {
   Injectable,
   InternalServerErrorException,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 // import { CreateSpaceMemberDto } from './dto/create-space-member.dto'; 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
 // import { UpdateSpaceMemberDto } from './dto/update-space-member.dto'; 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
 import { InjectRepository } from '@nestjs/typeorm';
 import { SpaceMember } from './entities/space-member.entity';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { SpaceMemberRole } from './types/space-member-role.type';
 import { AddMemberInSpaceDto } from './dto/add-member-in-space.dto';
 import { DeleteMemberInSpaceDto } from './dto/delete-member-in-space.dto';
@@ -166,6 +167,33 @@ export class SpaceMembersService {
       throw new ConflictException('서버 에러 발생');
     }
   }
+
+  // spaceId로 spaceMemberId 가져오기
+  async getSpaceMemberIdBySpaceId(spaceId: number, userId: number) {
+    await this.roleCheck(spaceId, userId);
+
+    const data = await this.spaceMemberRepository.find({
+      where: { role: Not(SpaceMemberRole.Admin), space_id: spaceId },
+      select: ['id'],
+    });
+    console.log(data);
+    if (!data) {
+      throw new NotFoundException('조회된 데이터가 없습니다.');
+    }
+
+    return data;
+  }
+
+  async roleCheck(spaceId: number, userId: number) {
+    const user: any = await this.spaceMemberRepository.findOne({
+      where: { space_id: spaceId, user_id: userId },
+      select: ['role'],
+    });
+    if (user.role !== SpaceMemberRole.Admin) {
+      throw new UnauthorizedException('권한이 없습니다.');
+    }
+  }
+
   // 추방기능도 만들어야 하나?
   // Private 영역
   async findUserById(userId) {

@@ -134,7 +134,7 @@ export class SpacesService {
       return memberSpaces.map((member) => ({
         ...member.space,
         role: member.role,
-        //capacity: member.space.space_class.capacity,
+        // capacity: member.space.space_class.capacity,
       }));
     } catch (error) {
       throw new InternalServerErrorException('서버 오류 발생');
@@ -202,8 +202,7 @@ export class SpacesService {
       where: { space_id: spaceId, user_id: userId },
     });
 
-    console.log('isSpaceMember =====>', isSpaceMember.role);
-    if (isSpaceMember.role !== 0) {
+    if (isSpaceMember.role !== SpaceMemberRole.Admin) {
       throw new UnauthorizedException('권한이 없습니다.');
     }
 

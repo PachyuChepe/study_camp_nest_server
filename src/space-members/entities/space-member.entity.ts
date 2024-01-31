@@ -42,7 +42,7 @@ export class SpaceMember {
     enum: SpaceMemberRole,
     default: SpaceMemberRole.Mentee,
   })
-  role: number;
+  role: SpaceMemberRole;
 
   @OneToMany(
     () => SpaceMemberDau,

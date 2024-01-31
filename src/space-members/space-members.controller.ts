@@ -10,7 +10,6 @@ import {
   ValidationPipe,
   UseGuards,
   Request,
-  Get,
   Req,
 } from '@nestjs/common';
 import { SpaceMembersService } from './space-members.service';
