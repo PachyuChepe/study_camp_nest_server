@@ -9,11 +9,7 @@ POST {{domain}}/users
 Content-Type: application/json
 
 {
-<<<<<<< HEAD
-  "email": "test345@gmail.com",
-=======
   "email": "user1@gmail.com",
->>>>>>> a48506e523860bd5e6b1decc65edb41c0676d521
   "password": "123qweQWE!",
   "nick_name": "다닉네임"
 }
