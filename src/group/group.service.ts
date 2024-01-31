@@ -28,11 +28,12 @@ export class GroupService {
   async deleteGroupById(groupId: number) {
     const group = await this.findGroupById(groupId);
     this.isExistingGroup(group);
-    this.groupRepository.delete(group);
+    this.groupRepository.delete(groupId);
   }
 
   async findAllGroupBySpaceId(spaceId: number) {
     const results = await this.groupRepository.findBy({ space_id: spaceId });
+    console.log('특정 스페이스 모든 그룹 조회 ===>', results);
     this.isExistingGroup(results[0]);
     return results;
   }

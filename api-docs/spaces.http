@@ -79,8 +79,8 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "userId": 12,
-  "spaceId":8
+  "userId": 5,
+  "spaceId":3
 }
 
 ###
@@ -121,12 +121,12 @@ Content-Type: application/json
 # 학습공간을 URL parameter로받습니다.
 # 테스트 함.
 # 이상있으면 이정훈 바로 불러주세요.
-Post {{domain}}/group/4
+Post {{domain}}/group/3
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "name": "testName"
+  "name": "A-1"
 }
 
 ###
@@ -135,7 +135,7 @@ Content-Type: application/json
 # 그룹ID를 URL parameter로받습니다.
 # 테스트 함.
 # 이상있으면 이정훈 바로 불러주세요.
-DELETE {{domain}}/group/2
+DELETE {{domain}}/group/3
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
@@ -145,7 +145,7 @@ Content-Type: application/json
 # 학습공간ID를 URL parameter로받습니다.
 # 테스트 함.
 # 이상있으면 이정훈 바로 불러주세요.
-GET {{domain}}/group/4
+GET {{domain}}/group/3
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
@@ -159,8 +159,8 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "groupId": 1,
-  "memberId": 1
+  "groupId": 2,
+  "memberId": 35
 }
 
 ###
@@ -173,9 +173,14 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "groupId": 3,
-  "memberId": 3
+  "groupId": 5,
+  "memberId": 35
 }
+
+###
+# 특정 스페이스의 전체 그룹 멤버 조회
+GET {{domain}}/group-members/3
+Authorization: Bearer {{AccessToken}}
 
 ###
 # 강의 만들기

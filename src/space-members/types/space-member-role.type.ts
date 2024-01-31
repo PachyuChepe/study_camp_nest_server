@@ -1,6 +1,6 @@
 export enum SpaceMemberRole {
-  Admin,
-  Manager,
-  Mentor,
-  Mentee,
+  Admin = '0',
+  Manager = '1',
+  Mentor = '2',
+  Mentee = '3',
 }

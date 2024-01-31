@@ -10,7 +10,6 @@ import {
   ValidationPipe,
   UseGuards,
   Request,
-  Get,
   Req,
   Patch,
 } from '@nestjs/common';
