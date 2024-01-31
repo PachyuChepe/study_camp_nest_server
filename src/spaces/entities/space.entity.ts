@@ -34,7 +34,6 @@ export class Space {
   @Column({ type: 'int', name: 'class_id' })
   class_id: number;
 
-  // TODO: 이거 유니크한 값인지 물어봐야 한다.
   @Column({ type: 'varchar' })
   name: string;
 
@@ -43,6 +42,9 @@ export class Space {
 
   @Column({ type: 'varchar', nullable: true })
   content: string;
+
+  @Column({ type: 'text', nullable: true })
+  image_url: string;
 
   @OneToMany(() => SpaceMember, (spaceMember) => spaceMember.space, {
     onDelete: 'CASCADE',
