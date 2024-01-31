@@ -10,12 +10,8 @@ Content-Type: application/json
 
 {
   "email": "wlals7565@naver.com",
-<<<<<<< HEAD
   "password": "test123"
 
-=======
-  "password": "123qweQWE!"
->>>>>>> 6df320e3eb2149fda28b8ff3192ace3efd14beaa
 }
 
 ###
@@ -110,11 +106,7 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-<<<<<<< HEAD
-  "spaceId": 8
-=======
   "spaceId": 1
->>>>>>> 6df320e3eb2149fda28b8ff3192ace3efd14beaa
 }
 
 ###
@@ -295,15 +287,14 @@ Content-Type: application/json
 }
 
 ###
-<<<<<<< HEAD
 GET  {{domain}}/spaces/8
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
-=======
+
+
 # 초대 코드 생성
 GET {{domain}}/spaces/invitation/2
 Authorization: Bearer {{AccessToken}}
-
 
 ###
 # 초대 코드 검증
@@ -332,4 +323,3 @@ Content-Type: application/json
 GET {{domain}}/space-members/1
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
->>>>>>> 6df320e3eb2149fda28b8ff3192ace3efd14beaa
