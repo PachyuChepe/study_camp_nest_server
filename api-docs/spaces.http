@@ -10,7 +10,8 @@ Content-Type: application/json
 
 {
   "email": "wlals7565@naver.com",
-  "password": "123qweQWE!"
+  "password": "test123"
+
 }
 
 ###
@@ -286,10 +287,14 @@ Content-Type: application/json
 }
 
 ###
+GET  {{domain}}/spaces/8
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+
 # 초대 코드 생성
 GET {{domain}}/spaces/invitation/2
 Authorization: Bearer {{AccessToken}}
-
 
 ###
 # 초대 코드 검증
