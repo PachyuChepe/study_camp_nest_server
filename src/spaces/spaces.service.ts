@@ -4,6 +4,7 @@ import {
   Injectable,
   InternalServerErrorException,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 // import { CreateSpaceDto } from './dto/create-space.dto';
 // import { UpdateSpaceDto } from './dto/update-space.dto'; 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
@@ -15,6 +16,7 @@ import { SpaceMembersService } from 'src/space-members/space-members.service';
 import { SpaceMemberRole } from 'src/space-members/types/space-member-role.type';
 import { SpaceMember } from '../space-members/entities/space-member.entity';
 import { SpaceClass } from './entities/space-class.entity';
+import { RedisService } from 'src/redis/redis.service';
 
 @Injectable()
 export class SpacesService {
@@ -27,6 +29,8 @@ export class SpacesService {
 
     @InjectRepository(SpaceClass) // SpaceClass 리포지토리 추가
     private spaceClassRepository: Repository<SpaceClass>,
+
+    private redisService: RedisService,
   ) {}
 
   // 구글 로그인 이후 socket연결하면 검증된 유저다.
@@ -103,8 +107,8 @@ export class SpacesService {
 
   async findAllSpaces() {
     try {
-      const spaces = await this.spaceClassRepository.find({
-        relations: ['space'],
+      const spaces = await this.spacesRepository.find({
+        relations: ['space_class'],
       });
       return spaces;
     } catch (error) {
@@ -128,9 +132,9 @@ export class SpacesService {
 
       // 각 스페이스와 해당 스페이스에서의 사용자 역할을 포함한 객체 반환
       return memberSpaces.map((member) => ({
-        space: member.space,
+        ...member.space,
         role: member.role,
-        capacity: member.space.space_class.capacity,
+        //capacity: member.space.space_class.capacity,
       }));
     } catch (error) {
       throw new InternalServerErrorException('서버 오류 발생');
@@ -202,5 +206,62 @@ export class SpacesService {
     } catch (error) {
       throw new NotFoundException('스페이스를 찾을 수 없습니다.');
     }
+  }
+
+  // 초대 코드 생성
+  async createInvitngCode(spaceId: number, userId: number) {
+    const isSpaceMember = await this.spaceMemberRepository.findOne({
+      where: { space_id: spaceId, user_id: userId },
+    });
+
+    console.log('isSpaceMember =====>', isSpaceMember.role);
+    if (isSpaceMember.role !== 0) {
+      throw new UnauthorizedException('권한이 없습니다.');
+    }
+
+    const numbers = '0123456789';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let result = '';
+
+    for (let i = 0; i < 3; i++) {
+      result += numbers.charAt(Math.floor(Math.random() * numbers.length));
+    }
+
+    for (let i = 3; i < 6; i++) {
+      result += characters.charAt(
+        Math.floor(Math.random() * characters.length),
+      );
+    }
+
+    result = result
+      .split('')
+      .sort(() => {
+        return 0.5 - Math.random();
+      })
+      .join('');
+
+    await this.redisService.saveInvitingCode(spaceId, result);
+    return result;
+  }
+
+  // 초대 코드 검증
+  async checkInvitingCode(userId: number, code: string) {
+    const result = await this.redisService.getInvitingCode(code);
+
+    // 해당 스페이스의 멤버인지 확인
+    const checkUserInSpace = await this.spacesRepository.findOne({
+      where: { id: +result, user_id: userId },
+    });
+    if (checkUserInSpace) {
+      throw new BadRequestException('이미 해당 스페이스의 멤버 입니다.');
+    }
+
+    // 스페이스 멤버 등록
+    const signUpSpaceMember = await this.spaceMemberRepository.save({
+      user_id: userId,
+      space_id: +result,
+    });
+
+    return signUpSpaceMember;
   }
 }

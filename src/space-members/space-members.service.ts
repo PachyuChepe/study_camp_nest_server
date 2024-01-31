@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -14,6 +15,7 @@ import { SpaceMemberRole } from './types/space-member-role.type';
 import { AddMemberInSpaceDto } from './dto/add-member-in-space.dto';
 import { DeleteMemberInSpaceDto } from './dto/delete-member-in-space.dto';
 import { Space } from '../spaces/entities/space.entity';
+import { ChangeMemberRoleDto } from './dto/change-member-role.dto ';
 
 @Injectable()
 export class SpaceMembersService {
@@ -88,6 +90,27 @@ export class SpaceMembersService {
     } catch (error) {
       throw new InternalServerErrorException('서버 오류 발생');
     }
+  }
+
+  async getAllMembersInSpace(spaceId: number) {
+    const members = this.spaceMemberRepository
+      .createQueryBuilder('spaceMember')
+      .leftJoinAndSelect('spaceMember.user', 'user')
+      .select([
+        'spaceMember.id',
+        'spaceMember.user_id',
+        'spaceMember.space_id',
+        'spaceMember.role',
+        'user.nick_name',
+      ])
+      .where('spaceMember.space_id = :spaceId', { spaceId })
+      .getMany();
+
+    if (!members) {
+      throw new NotFoundException('해당 스페이스에 멤버가 존재하지 않습니다.');
+    }
+
+    return members;
   }
 
   // async deleteMemberInSpace(deleteMemberInSpaceDto: DeleteMemberInSpaceDto) {
@@ -175,5 +198,41 @@ export class SpaceMembersService {
     } catch (error) {
       throw new InternalServerErrorException('서버 오류 발생');
     }
+  }
+
+  async changeMemberRole(
+    changeMemberRoleDto: ChangeMemberRoleDto,
+    requestUserId: number,
+  ) {
+    // 권한 변경을 요청한 사용자가 스페이스의 관리자인지 확인
+
+    const requester = await this.spaceMemberRepository.findOne({
+      where: {
+        user_id: requestUserId,
+        space_id: changeMemberRoleDto.spaceId,
+      },
+    });
+
+    if (requester.role !== SpaceMemberRole.Admin) {
+      throw new ForbiddenException('권한이 없습니다.');
+    }
+
+    // 변경 대상 멤버 찾기
+    const targetMember = await this.spaceMemberRepository.findOne({
+      where: {
+        user_id: changeMemberRoleDto.targetUserId,
+        space_id: changeMemberRoleDto.spaceId,
+      },
+    });
+
+    if (!targetMember) {
+      throw new NotFoundException('대상 멤버가 스페이스에 존재하지 않습니다.');
+    }
+
+    // 멤버의 역할 변경
+    targetMember.role = changeMemberRoleDto.newRole;
+    await this.spaceMemberRepository.save(targetMember);
+
+    return { code: 200, message: '멤버의 역할이 변경되었습니다.' };
   }
 }

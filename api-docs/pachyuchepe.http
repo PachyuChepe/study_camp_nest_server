@@ -21,7 +21,7 @@ POST {{domain}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "user1@gmail.com",
+  "email": "admin10000@gmail.com",
   "password": "123qweQWE!"
 }
 
@@ -34,5 +34,23 @@ Authorization: Bearer {{AccessToken}}
 ###
 # 스페이스 클래스 전체 조회 (타입, 최대수용인원, 가격)
 GET {{domain}}/spaces/classes
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+###
+# 스페이스 멤버의 역할 변경
+PATCH {{domain}}/space-members/change-role
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "spaceId": 1,
+  "targetUserId": 2,
+  "newRole": 2
+}
+
+###
+# 학습공간에서 전체 멤버 정보 조회
+GET {{domain}}/space-members/1
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
