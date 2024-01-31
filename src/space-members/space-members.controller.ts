@@ -4,13 +4,14 @@ import {
   Post,
   Body,
   // Patch, 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
-  // Param, 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
+  Param,
   Delete,
   UsePipes,
   ValidationPipe,
   UseGuards,
   Request,
   Req,
+  Patch,
 } from '@nestjs/common';
 import { SpaceMembersService } from './space-members.service';
 // import { CreateSpaceMemberDto } from './dto/create-space-member.dto'; 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
@@ -20,6 +21,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { DeleteMemberInSpaceDto } from './dto/delete-member-in-space.dto';
 import { GetMemberInSpaceDto } from './dto/get-member-in-space.dto';
+import { ChangeMemberRoleDto } from './dto/change-member-role.dto ';
 
 @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
 @Controller('space-members')
@@ -61,5 +63,22 @@ export class SpaceMembersController {
       deleteMemberInSpaceDto,
       req.user.id, // 현재 로그인한 사용자의 ID를 전달
     );
+  }
+
+  @Patch('/change-role')
+  @UsePipes(ValidationPipe)
+  async changeMemberRole(
+    @Body() changeMemberRoleDto: ChangeMemberRoleDto,
+    @Req() req,
+  ) {
+    return await this.spaceMembersService.changeMemberRole(
+      changeMemberRoleDto,
+      req.user.id,
+    );
+  }
+
+  @Get(':spaceId')
+  async getAllMembersInSpace(@Param('spaceId') spaceId: number) {
+    return await this.spaceMembersService.getAllMembersInSpace(spaceId);
   }
 }

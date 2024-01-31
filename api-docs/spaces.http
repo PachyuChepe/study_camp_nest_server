@@ -9,8 +9,9 @@ POST {{domain}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "jgw987@gmail.com",
-  "password": "1234"
+  "email": "wlals7565@naver.com",
+  "password": "test123"
+
 }
 
 ###
@@ -99,13 +100,13 @@ Content-Type: application/json
 }
 
 ###
-# 학습공간에서 멤버 정보 조회
+# 학습공간에서 특정 멤버 정보 조회
 POST {{domain}}/space-members/info
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "spaceId": 2
+  "spaceId": 1
 }
 
 ###
@@ -291,10 +292,14 @@ Content-Type: application/json
 }
 
 ###
+GET  {{domain}}/spaces/8
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+
 # 초대 코드 생성
 GET {{domain}}/spaces/invitation/2
 Authorization: Bearer {{AccessToken}}
-
 
 ###
 # 초대 코드 검증
@@ -305,3 +310,21 @@ Content-Type: application/json
 {
   "code": "M6V25A"
 }
+
+###
+# 스페이스 멤버의 역할 변경
+PATCH {{domain}}/space-members/change-role
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "spaceId": 1,
+  "targetUserId": 4,
+  "newRole": 3
+}
+
+###
+# 학습공간에서 전체 멤버 정보 조회
+GET {{domain}}/space-members/1
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
