@@ -1,8 +1,14 @@
-import { Injectable, NotAcceptableException } from '@nestjs/common';
+import {
+  Injectable,
+  NotAcceptableException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Mail } from './entities/mail.entity';
 import { Repository } from 'typeorm';
 import { SpaceMember } from 'src/space-members/entities/space-member.entity';
+import { GroupMembersService } from 'src/group-members/group-members.service';
+import { HttpStatusCode } from 'axios';
 
 @Injectable()
 export class MailsService {
@@ -11,6 +17,7 @@ export class MailsService {
     private mailsRepository: Repository<Mail>,
     @InjectRepository(SpaceMember)
     private readonly spaceMemberRepository: Repository<SpaceMember>,
+    private readonly groupMembersService: GroupMembersService,
   ) {}
   async create(spaceId: number, title: string) {
     // 강의가 생성됬을 때
@@ -38,6 +45,25 @@ export class MailsService {
     });
 
     // sse로 member_id에 속하는 user_id를 가져와서 각 user_id에게 알림 발송.
+  }
+
+  // 그룹 메세지 생성
+  async createGroupMessage(groupId: number, message: string) {
+    const members = await this.groupMembersService.getMembersByGroupId(groupId);
+
+    if (!members) {
+      throw new NotFoundException('해당 그룹에 멤버가 존재하지 않습니다.');
+    }
+
+    members.forEach(async (data) => {
+      await this.mailsRepository.save({
+        member_id: data.member_id,
+        title: `그룹 메세지`,
+        content: `${message}`,
+      });
+    });
+
+    return { status: HttpStatusCode.Created };
   }
 
   // 메일 전체 조회
