@@ -9,8 +9,9 @@ POST {{domain}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "wlals7565@naver.com",
-  "password": "test123"
+  "email": "user1@gmail.com",
+  "password": "123qweQWE!",
+  "nick_name": "다닉네임"
 
 }
 
