@@ -13,6 +13,7 @@ import { User } from 'src/users/entities/user.entity';
 import { SpacesService } from 'src/spaces/spaces.service';
 import { PaymentService } from 'src/payment/payment.service';
 // import { SseService } from './../sse/sse.service'; 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class AuthService {
@@ -88,6 +89,7 @@ export class AuthService {
       const newUser = new CreateUserDto();
       newUser.email = userProfile.email;
       newUser.nick_name = `${userProfile.lastName}${userProfile.firstName}`;
+      newUser.password = `${uuidv4()}`;
       // ... 추가적인 사용자 정보 설정 ...
       user = await this.userService.create(newUser);
     }

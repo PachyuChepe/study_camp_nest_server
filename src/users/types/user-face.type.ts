@@ -49,4 +49,21 @@ export enum FaceType {
   Type47, // 47
   Type48, // 48
   Type49, // 49
+  Type50, // 50
+  Type51, // 51
+  Type52, // 52
+  Type53, // 53
+  Type54, // 54
+  Type55, // 55
+  Type56, // 56
+  Type57, // 57
+  Type58, // 58
+  Type59, // 59
+  Type60, // 60
+  Type61, // 61
+  Type62, // 62
+  Type63, // 63
+  Type64, // 64
+  Type65, // 65
+  Type66, // 66
 }
