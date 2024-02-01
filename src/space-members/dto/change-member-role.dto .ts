@@ -8,5 +8,5 @@ export class ChangeMemberRoleDto {
   targetUserId: number;
 
   @IsNotEmpty()
-  newRole: number;
+  newRole: any;
 }

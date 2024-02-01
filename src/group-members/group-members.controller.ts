@@ -2,7 +2,10 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
+  Param,
   Post,
+  Request,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -32,11 +35,17 @@ export class GroupMembersController {
   }
 
   @Delete()
-  @UsePipes(ValidationPipe)
+  // @UsePipes(ValidationPipe)
   async deleteGroupMember(@Body() deleteGroupMember: DeleteGroupMember) {
+    console.log('===>', deleteGroupMember);
     return await this.groupMembersService.deleteGroupMember(
       deleteGroupMember.groupId,
       deleteGroupMember.memberId,
     );
+  }
+
+  @Get('/:spaceId')
+  async getGroupUsers(@Param('spaceId') spaceId: string, @Request() req) {
+    return await this.groupMembersService.getGroupUsers(+spaceId, req.user.id);
   }
 }

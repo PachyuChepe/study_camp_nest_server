@@ -6,6 +6,7 @@ import {
   UseGuards,
   Req,
   HttpStatus,
+  Body,
 } from '@nestjs/common';
 import { MailsService } from './mails.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -21,6 +22,15 @@ export class MailsController {
   @Post()
   async create(spaceId: number, title: string) {
     return await this.mailsService.create(spaceId, title);
+  }
+
+  // 그룹 관리 메시지 보내기
+  @Post('/group-message')
+  async createGroupMessage(
+    @Body('groupId') groupId: number,
+    @Body('message') message: string,
+  ) {
+    return await this.mailsService.createGroupMessage(groupId, message);
   }
 
   // 메일 전체 조회
