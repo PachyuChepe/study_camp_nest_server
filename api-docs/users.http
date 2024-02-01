@@ -9,9 +9,9 @@ POST {{domain}}/users
 Content-Type: application/json
 
 {
-  "email": "user1@gmail.com",
+  "email": "user3@gmail.com",
   "password": "123qweQWE!",
-  "nick_name": "다닉네임"
+  "nick_name": "나나닉네임"
 }
 
 ###
@@ -21,8 +21,8 @@ POST {{domain}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "admin10000@gmail.com",
-  "password": "123qweQWE"
+  "email": "pachyuchepe@gmail.com",
+  "password": "1234"
 }
 
 ###
