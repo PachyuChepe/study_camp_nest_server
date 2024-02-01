@@ -9,8 +9,19 @@ POST {{domain}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "user1@gmail.com",
+  "email": "jgw987@gmail.com",
   "password": "123qweQWE!"
+}
+
+###
+# 그룹 메시지 생성
+POST {{domain}}/mails/group-message
+Content-Type: application/json
+Authorization: Beaer {{AccessToken}}
+
+{
+  "groupId": 2,
+  "message": "안녕하세요 여러분 챌린지반 수업이 곧 시작됩니다."
 }
 
 ### 

@@ -13,6 +13,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PaymentService } from 'src/payment/payment.service';
 import { v4 as uuidv4 } from 'uuid';
+import { compare, hash } from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -44,6 +45,9 @@ export class UsersService {
     newUser.clothes_color = Math.floor(Math.random() * 12); // 0~11
     newUser.face = Math.floor(Math.random() * 65); //  0~64
 
+    const hashedPassword = await hash(newUser.password, 10);
+    newUser.password = hashedPassword;
+
     const savedUser = await this.userRepository.save(newUser);
 
     // savedUser의 ID를 customerKey로 사용
@@ -55,6 +59,23 @@ export class UsersService {
     });
 
     return savedUser;
+  }
+
+  async comparePassword(
+    email: string,
+    password: string,
+  ): Promise<User | undefined> {
+    const user = await this.userRepository.findOne({ where: { email } });
+    if (user) {
+      if (!(await compare(password, user.password))) {
+        throw new BadRequestException('비밀번호를 확인해주세요.');
+      }
+    } else {
+      throw new NotFoundException(
+        '존재하지 않는 회원이거나 비밀번호가 틀립니다.',
+      );
+    }
+    return user;
   }
 
   async findOne(email: string): Promise<User | undefined> {

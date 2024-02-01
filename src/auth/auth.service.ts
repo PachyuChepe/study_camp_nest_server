@@ -13,6 +13,7 @@ import { User } from 'src/users/entities/user.entity';
 import { SpacesService } from 'src/spaces/spaces.service';
 import { PaymentService } from 'src/payment/payment.service';
 // import { SseService } from './../sse/sse.service'; 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class AuthService {
@@ -36,12 +37,12 @@ export class AuthService {
     return user;
   }
 
-  async login(user: any) {
+  async login(email: string, password: string) {
+    const user = await this.userService.comparePassword(email, password);
+
     const accessToken = await this.generateAccessToken(user);
     await this.generateRefreshToken(user);
 
-    const memberSpaces = await this.spacesService.findSpacesByMember(user.id);
-    const memberSearch = await this.userService.findOne(user.email);
     const memberCustomerKey = await this.paymentService.getPaymentByUserId(
       user.id,
     );
@@ -49,9 +50,19 @@ export class AuthService {
     return {
       message: '로그인 완료',
       access_token: accessToken,
-      member_spaces: memberSpaces, // 추가
-      member_search: memberSearch, // 추가
       member_customer_key: memberCustomerKey,
+      member_search: {
+        id: user.id,
+        email: user.email,
+        nick_name: user.nick_name,
+        point: user.point,
+        skin: user.skin,
+        hair: user.hair,
+        face: user.face,
+        clothes: user.clothes,
+        hair_color: user.hair_color,
+        clothes_color: user.clothes_color,
+      },
     };
   }
 
@@ -78,6 +89,7 @@ export class AuthService {
       const newUser = new CreateUserDto();
       newUser.email = userProfile.email;
       newUser.nick_name = `${userProfile.lastName}${userProfile.firstName}`;
+      newUser.password = `${uuidv4()}`;
       // ... 추가적인 사용자 정보 설정 ...
       user = await this.userService.create(newUser);
     }

@@ -37,8 +37,10 @@ export class AuthController {
 
   @Post('/login')
   @UseGuards(LocalAuthGuard)
-  async login(@Request() req) {
-    return this.authService.login(req.user);
+  async login(@Body() body) {
+    const email = body.email;
+    const password = body.password;
+    return this.authService.login(email, password);
   }
 
   @Post('/get-token')

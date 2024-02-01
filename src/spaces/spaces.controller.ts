@@ -104,4 +104,16 @@ export class SpacesController {
   async checkInvitingCode(@Body('code') code: string, @Request() req) {
     return await this.spacesService.checkInvitingCode(req.user.id, code);
   }
+
+  // 스페이스 비밀번호 검증
+  @Post('/invitation/password')
+  async checkInvitingPassword(@Body() body, @Request() req) {
+    const spaceId = body.spaceId;
+    const password = body.password;
+    return await this.spacesService.checkInvitingPassword(
+      req.user.id,
+      spaceId,
+      password,
+    );
+  }
 }
