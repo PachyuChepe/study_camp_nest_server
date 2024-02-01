@@ -36,12 +36,12 @@ export class AuthService {
     return user;
   }
 
-  async login(user: any) {
+  async login(email: string, password: string) {
+    const user = await this.userService.comparePassword(email, password);
+
     const accessToken = await this.generateAccessToken(user);
     await this.generateRefreshToken(user);
 
-    const memberSpaces = await this.spacesService.findSpacesByMember(user.id);
-    const memberSearch = await this.userService.findOne(user.email);
     const memberCustomerKey = await this.paymentService.getPaymentByUserId(
       user.id,
     );
@@ -49,9 +49,19 @@ export class AuthService {
     return {
       message: '로그인 완료',
       access_token: accessToken,
-      member_spaces: memberSpaces, // 추가
-      member_search: memberSearch, // 추가
       member_customer_key: memberCustomerKey,
+      member_search: {
+        id: user.id,
+        email: user.email,
+        nick_name: user.nick_name,
+        point: user.point,
+        skin: user.skin,
+        hair: user.hair,
+        face: user.face,
+        clothes: user.clothes,
+        hair_color: user.hair_color,
+        clothes_color: user.clothes_color,
+      },
     };
   }
 

@@ -263,4 +263,34 @@ export class SpacesService {
 
     return signUpSpaceMember;
   }
+
+  // 비밀번호 입장 검증
+  async checkInvitingPassword(
+    userId: number,
+    spaceId: number,
+    password: string,
+  ) {
+    const space = await this.spacesRepository.findOne({
+      where: { id: spaceId },
+    });
+    if (space.password !== password) {
+      throw new BadRequestException('비밀번호가 일치하지 않습니다.');
+    }
+
+    // 해당 스페이스의 멤버인지 확인
+    const checkUserInSpace = await this.spacesRepository.findOne({
+      where: { id: +spaceId, user_id: userId },
+    });
+    if (checkUserInSpace) {
+      throw new BadRequestException('이미 해당 스페이스의 멤버 입니다.');
+    }
+
+    // 스페이스 멤버 등록
+    const signUpSpaceMember = await this.spaceMemberRepository.save({
+      user_id: userId,
+      space_id: +spaceId,
+    });
+
+    return signUpSpaceMember;
+  }
 }
