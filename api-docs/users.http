@@ -10,7 +10,7 @@ Content-Type: application/json
 
 {
   "email": "user3@gmail.com",
-  "password": "123qweQWE!",
+  "password": "1234",
   "nick_name": "나나닉네임"
 }
 

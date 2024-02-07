@@ -46,7 +46,7 @@ Content-Type: application/json
 {
   "spaceId": 1,
   "targetUserId": 2,
-  "newRole": 2
+  "newRole": "2"
 }
 
 ###

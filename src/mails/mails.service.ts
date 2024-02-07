@@ -51,7 +51,7 @@ export class MailsService {
   async createGroupMessage(groupId: number, message: string) {
     const members = await this.groupMembersService.getMembersByGroupId(groupId);
 
-    if (!members) {
+    if (members.length === 0) {
       throw new NotFoundException('해당 그룹에 멤버가 존재하지 않습니다.');
     }
 
