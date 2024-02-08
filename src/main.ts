@@ -12,7 +12,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: process.env.CLIENT,
+    origin: `${process.env.CLIENT}`,
     // origin: 'https://port-0-phaser-youtube-euegqv2lloh4rpfv.sel5.cloudtype.app',
     credentials: true, // 쿠키 허용
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
