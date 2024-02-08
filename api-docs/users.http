@@ -10,8 +10,8 @@ Content-Type: application/json
 
 {
   "email": "user3@gmail.com",
-  "password": "123qweQWE!",
-  "nick_name": "나나닉네임"
+  "password": "1234",
+  "nick_name": "살려주조"
 }
 
 ###
