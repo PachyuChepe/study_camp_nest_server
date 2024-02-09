@@ -69,6 +69,15 @@ jobs:
                   value: ${{ secrets.TOSS_NEST_SERVER_PAYMENT }}
                 - name: CLIENT
                   value: ${{ secrets.CLIENT }}
+                - name: ACCOUNT_ID
+                  value: ${{ secrets.ACCOUNT_ID }}
+                - name: API_TOKEN
+                  value: ${{ secrets.API_TOKEN }}
+                - name: SOCKET
+                  value: ${{ secrets.SOCKET }}
+                - name: DB
+                  value: ${{ secrets.DB }}
+
               ports: "4000"
               build: npm run build
               start: npm run start:prod
