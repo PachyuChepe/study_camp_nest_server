@@ -59,6 +59,10 @@ export class GroupMembersService {
     const groupMemberIds = (
       await this.spaceMembersService.getSpaceMemberIdBySpaceId(spaceId, userId)
     ).map((data) => data.id);
+    if (groupMemberIds.length === 0) {
+      throw new NotFoundException('등록된 멤버가 없습니다.');
+    }
+    console.log('그룹멤버아이디스', groupMemberIds);
 
     // groupMemberIds 배열을 사용하여 모든 관련 데이터를 한 번의 쿼리로 가져옵니다.
     const groupMembersData = await this.groupMembersRepository
@@ -70,6 +74,7 @@ export class GroupMembersService {
         groupMemberIds,
       })
       .getMany();
+    console.log('그룹멤버데이터', groupMembersData);
 
     // 결과 데이터를 원하는 구조로 변환합니다.
     const groupMembers = groupMembersData.map((data) => ({

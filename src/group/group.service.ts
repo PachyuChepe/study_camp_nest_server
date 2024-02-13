@@ -7,11 +7,13 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Group } from './entities/group.entity';
 import { Repository } from 'typeorm';
+import { SpaceMembersService } from 'src/space-members/space-members.service';
 
 @Injectable()
 export class GroupService {
   constructor(
     @InjectRepository(Group) private groupRepository: Repository<Group>,
+    private spaceMembersService: SpaceMembersService,
   ) {}
 
   // Pulbic영역
@@ -31,10 +33,11 @@ export class GroupService {
     this.groupRepository.delete(groupId);
   }
 
-  async findAllGroupBySpaceId(spaceId: number) {
+  async findAllGroupBySpaceId(spaceId: number, userId: number) {
+    await this.spaceMembersService.roleCheck(spaceId, userId);
     const results = await this.groupRepository.findBy({ space_id: spaceId });
     console.log('특정 스페이스 모든 그룹 조회 ===>', results);
-    this.isExistingGroup(results[0]);
+    // this.isExistingGroup(results[0]);
     return results;
   }
 

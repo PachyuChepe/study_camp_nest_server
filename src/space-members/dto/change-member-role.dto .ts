@@ -1,4 +1,5 @@
 import { IsNotEmpty } from 'class-validator';
+import { SpaceMemberRole } from '../types/space-member-role.type';
 
 export class ChangeMemberRoleDto {
   @IsNotEmpty()
@@ -8,5 +9,5 @@ export class ChangeMemberRoleDto {
   targetUserId: number;
 
   @IsNotEmpty()
-  newRole: any;
+  newRole: SpaceMemberRole;
 }

@@ -199,7 +199,7 @@ export class SpaceMembersService {
       where: { role: Not(SpaceMemberRole.Admin), space_id: spaceId },
       select: ['id'],
     });
-    console.log(data);
+
     if (!data) {
       throw new NotFoundException('조회된 데이터가 없습니다.');
     }
@@ -208,7 +208,7 @@ export class SpaceMembersService {
   }
 
   async roleCheck(spaceId: number, userId: number) {
-    const user: any = await this.spaceMemberRepository.findOne({
+    const user = await this.spaceMemberRepository.findOne({
       where: { space_id: spaceId, user_id: userId },
       select: ['role'],
     });
