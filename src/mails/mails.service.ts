@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 import { SpaceMember } from 'src/space-members/entities/space-member.entity';
 import { GroupMembersService } from 'src/group-members/group-members.service';
 import { HttpStatusCode } from 'axios';
+import { SseService } from 'src/sse/sse.service';
 
 @Injectable()
 export class MailsService {
@@ -18,6 +19,7 @@ export class MailsService {
     @InjectRepository(SpaceMember)
     private readonly spaceMemberRepository: Repository<SpaceMember>,
     private readonly groupMembersService: GroupMembersService,
+    private sseService: SseService,
   ) {}
   async create(spaceId: number, title: string) {
     // 강의가 생성됬을 때
@@ -28,23 +30,20 @@ export class MailsService {
       select: ['id', 'user_id', 'role'],
     });
 
-    // role이 관리자이거나 매니저가 아닌 사람에게만 발송하기. isNotAdmin
-    // -> 나중에 쓰기 위함.
-    // const isNotAdmin = isSpaceMembers.filter(
-    //   (user) => user.role !== 0 && user.role !== 1,
-    // );
-
     // space_member에 속하는 사람에게 메일 생성.
     isSpaceMembers.forEach(async (member) => {
       const result = await this.mailsRepository.save({
         member_id: member.id,
         title: `${title} 강의 지급!`,
-        content: `강의 ${title}가 지급되었습니다. 지금 확인해보세요!`,
+        content: `${title} 강의가 지급되었습니다. 지금 확인해보세요!`,
       });
       console.log(result);
+      this.sseService.notifyClients({
+        member_id: member.id,
+        title: `${title} 강의 지급`,
+        content: `${title} 강의가 지급되었습니다. 지금 확인해보세요!`,
+      });
     });
-
-    // sse로 member_id에 속하는 user_id를 가져와서 각 user_id에게 알림 발송.
   }
 
   // 그룹 메세지 생성
@@ -57,6 +56,12 @@ export class MailsService {
 
     members.forEach(async (data) => {
       await this.mailsRepository.save({
+        member_id: data.member_id,
+        title: `그룹 메세지`,
+        content: `${message}`,
+      });
+
+      this.sseService.notifyClients({
         member_id: data.member_id,
         title: `그룹 메세지`,
         content: `${message}`,

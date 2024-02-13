@@ -193,8 +193,8 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "spaceId": 10,
-  "title": "testTitle"
+  "spaceId": 7,
+  "title": "테스트 강의"
 }
 
 ###
