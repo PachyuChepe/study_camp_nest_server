@@ -53,6 +53,7 @@ export class PaymentController {
     const serverUrl = this.configService.get<string>(
       'TOSS_NEST_SERVER_PAYMENT',
     );
+    const socketUrl = this.configService.get<string>('SOCKET');
 
     fs.readFile(filePath, 'utf8', (err, data) => {
       if (err) {
@@ -72,6 +73,7 @@ export class PaymentController {
         email: "${email}",
         clientUrl: "${clientUrl}",
         serverUrl: "${serverUrl}",
+        socketUrl: "${socketUrl}",
       };`,
       );
 
