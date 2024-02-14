@@ -3,13 +3,13 @@ import {
   Get,
   Post,
   Body,
-  // Patch, 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
   Param,
   Delete,
   ParseIntPipe,
   UsePipes,
   ValidationPipe,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import { GroupService } from './group.service';
 // import { CreateGroupDto } from './dto/create-group.dto'; 사용하지 않는거라면 삭제 요망 사용할 예정이라면 임시 주석처리
@@ -50,7 +50,10 @@ export class GroupController {
 
   // 미룬 기능
   @Get('/:spaceId')
-  async findAllGroupBySpaceId(@Param('spaceId', ParseIntPipe) spaceId: number) {
-    return await this.groupService.findAllGroupBySpaceId(spaceId);
+  async findAllGroupBySpaceId(
+    @Param('spaceId', ParseIntPipe) spaceId: number,
+    @Request() req,
+  ) {
+    return await this.groupService.findAllGroupBySpaceId(spaceId, req.user.id);
   }
 }
