@@ -9,10 +9,8 @@ POST {{domain}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "user1@gmail.com",
-  "password": "123qweQWE!",
-  "nick_name": "다닉네임"
-
+  "email": "jgw987@gmail.com",
+  "password": "1234"
 }
 
 ###
@@ -80,8 +78,8 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "userId": 5,
-  "spaceId":3
+  "userId": 4,
+  "spaceId":4
 }
 
 ###
@@ -122,12 +120,12 @@ Content-Type: application/json
 # 학습공간을 URL parameter로받습니다.
 # 테스트 함.
 # 이상있으면 이정훈 바로 불러주세요.
-Post {{domain}}/group/3
+Post {{domain}}/group/4
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "name": "A-1"
+  "name": "베이직"
 }
 
 ###
@@ -160,8 +158,8 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "groupId": 2,
-  "memberId": 35
+  "groupId": 13,
+  "memberId": 46
 }
 
 ###
@@ -180,7 +178,7 @@ Content-Type: application/json
 
 ###
 # 특정 스페이스의 전체 그룹 멤버 조회
-GET {{domain}}/group-members/3
+GET {{domain}}/group-members/4
 Authorization: Bearer {{AccessToken}}
 
 ###
@@ -195,8 +193,8 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "spaceId": 10,
-  "title": "testTitle"
+  "spaceId": 7,
+  "title": "테스트 강의"
 }
 
 ###
@@ -321,7 +319,7 @@ Content-Type: application/json
 {
   "spaceId": 1,
   "targetUserId": 4,
-  "newRole": 3
+  "newRole": "3"
 }
 
 ###

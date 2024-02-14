@@ -17,7 +17,7 @@ Content-Type: application/json
 # 그룹 메시지 생성
 POST {{domain}}/mails/group-message
 Content-Type: application/json
-Authorization: Beaer {{AccessToken}}
+Authorization: Bearer {{AccessToken}}
 
 {
   "groupId": 2,

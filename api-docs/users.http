@@ -11,7 +11,7 @@ Content-Type: application/json
 {
   "email": "user3@gmail.com",
   "password": "1234",
-  "nick_name": "살려주조"
+  "nick_name": "나나닉네임"
 }
 
 ###
