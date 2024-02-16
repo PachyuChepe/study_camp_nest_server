@@ -9,9 +9,9 @@ POST {{domain}}/users
 Content-Type: application/json
 
 {
-  "email": "user3@gmail.com",
+  "email": "user4@gmail.com",
   "password": "1234",
-  "nick_name": "나나닉네임"
+  "nick_name": "3닉네임"
 }
 
 ###
