@@ -51,7 +51,7 @@ export class PaymentController {
     const filePath = path.join(__dirname, '../../test_pay_client/success.html');
     const clientUrl = this.configService.get<string>('CLIENT');
     const serverUrl = this.configService.get<string>(
-      'TOSS_NEST_SERVER_PAYMENT',
+      'DB',
     );
     const socketUrl = this.configService.get<string>('SOCKET');
 
