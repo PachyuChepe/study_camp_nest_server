@@ -73,7 +73,7 @@ const typeOrmModuleOptions = {
       Payment,
     ],
     synchronize: configService.get('DB_SYNC'),
-    logging: true,
+    logging: false,
   }),
   inject: [ConfigService],
 };

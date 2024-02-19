@@ -53,7 +53,7 @@
       try {
         // 첫 번째 요청에서 토큰 가져오기
         const tokenResponse = await axios.post(
-          `${ENV_VARS.serverUrl}/auth/get-token`,
+          `https://www.big1-nest.store/auth/get-token`,
           {
             email: ENV_VARS.email,
           },
@@ -68,7 +68,7 @@
 
         if (authKey && customerKey) {
           await axios.post(
-            `${ENV_VARS.serverUrl}/payment/create-billing-key`,
+            `https://www.big1-nest.store/payment/create-billing-key`,
             {
               authKey: authKey,
               customerKey: customerKey,
@@ -101,7 +101,7 @@
         );
 
         await axios
-          .post(`${ENV_VARS.socketUrl}/saveAttendance`, {
+          .post(`https://www.big1-express.store/saveAttendance`, {
             email,
             spaceClassPaymentId,
             spaceClassPaymentName,
